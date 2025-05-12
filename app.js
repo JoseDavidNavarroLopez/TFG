@@ -1,20 +1,11 @@
 const express = require('express');
-const cors = require('cors');
-const chatRoutes = require('./routes/chatRoutes');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const userRoutes = require('./routes/userRoutes');
 
-app.use(cors());
-app.use(express.json());
-
-app.use('/api/chat', chatRoutes);
-
-// 👇 Mueve esta parte aquí
+app.use(express.json()); // Middleware para JSON
+app.use('/api/users', userRoutes); // Rutas montadas
 app.get('/', (req, res) => {
-  res.send('¡Servidor funcionando! Puedes enviar mensajes POST a /api/chat');
+  res.send('Bienvenido al servidor');
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+module.exports = app;
