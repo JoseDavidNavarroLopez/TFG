@@ -7,8 +7,31 @@ exports.getAllUsers = (req, res) => {
   ]);
 };
 
-exports.createUser = (req, res) => {
-  const newUser = req.body;
-  // Aquí iría la lógica de guardado
-  res.status(201).json({ message: 'Usuario creado', user: newUser });
+// controllers/userController.js
+const prisma = require('../prisma');
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const usuarios = await prisma.usuarios.findMany(); // nombre exacto según tabla en DB
+    res.json(usuarios);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
+};
+//añadir users
+exports.createUser = async (req, res) => {
+  try {
+    const { nombre, email } = req.body;
+    const nuevoUsuario = await prisma.usuarios.create({
+      data: {
+        nombre,
+        email,
+      },
+    });
+    res.status(201).json(nuevoUsuario);
+  } catch (error) {
+    console.error('Error al crear usuario:', error);
+    res.status(500).json({ error: 'No se pudo crear el usuario' });
+  }
 };
