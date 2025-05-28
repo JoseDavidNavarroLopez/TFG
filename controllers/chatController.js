@@ -1,109 +1,125 @@
-const { OpenAI } = require("openai");
 const prisma = require("../prisma.js");
 const { getChatbotResponse } = require("../services/openai");
+const { detectIntentFromMessage } = require("../services/intent.js"); // lo crearás abajo
 
 async function procesarMensaje(req, res) {
   const { userId, message } = req.body;
-
-
   console.log("procesarMensaje llamado con body:", req.body);
 
   try {
-    // 1. Buscar o crear conversación
-    const conversation = await prisma.conversaciones.findFirst({
+    // Buscar conversación activa
+    let conversation = await prisma.conversaciones.findFirst({
       where: {
         id_usuario: userId,
         estado: "en curso",
       },
     });
 
-    let conversationId;
-
+    // Si no existe, crear una nueva
+    let isNewConversation = false;
     if (!conversation) {
-      const nuevaConversacion = await prisma.conversaciones.create({
+      conversation = await prisma.conversaciones.create({
         data: {
           id_usuario: userId,
         },
       });
-      conversationId = nuevaConversacion.id_conversacion;
-    } else {
-      conversationId = conversation.id_conversacion;
+      await prisma.logs_actividad.create({
+        data: {
+          id_usuario: userId,
+          accion: "Inicio de nueva conversación",
+        },
+      });
+
+      isNewConversation = true;
     }
 
+    const conversationId = conversation.id_conversacion;
+
+    // Comando de reinicio
     if (message.trim() === "!reset" || message.trim() === "!reiniciar") {
-      if (conversationId) {
-        await prisma.conversaciones.update({
-          where: { id_conversacion: conversationId },
-          data: { estado: "finalizada" }
-        });
-      }
+
+      await prisma.conversaciones.update({
+        where: { id_conversacion: conversationId },
+        data: { estado: "finalizada" },
+      });
+      await prisma.logs_actividad.create({
+        data: {
+          id_usuario: userId,
+          accion: "Reinicio de conversación con comando !reset",
+        },
+      });
       return res.json({ respuesta: "Conversación reiniciada. Puedes empezar de nuevo." });
     }
 
-    // 2. Cargar historial
+    // Guardar mensaje del usuario
+    await prisma.mensajes.create({
+      data: {
+        id_conversacion: conversationId,
+        emisor: "user",
+        mensaje: message,
+      },
+    });
+    await prisma.logs_actividad.create({
+      data: {
+        id_usuario: userId,
+        accion: `Envió mensaje: "${message}"`,
+      },
+    });
+    
+    // Detectar y guardar intent si es una nueva conversación
+    if (isNewConversation) {
+      const intentName = await detectIntentFromMessage(message);
+
+      let intent = await prisma.intents.findFirst({ where: { nombre: intentName } });
+      if (!intent) {
+        intent = await prisma.intents.create({
+          data: {
+            nombre: intentName,
+            descripcion: `Detectado automáticamente desde el primer mensaje del usuario.`,
+          },
+        });
+      }
+
+      console.log(`Intent detectado: ${intent.nombre}`);
+    }
+
+    // Obtener historial
     const mensajes = await prisma.mensajes.findMany({
       where: {
         id_conversacion: conversationId,
       },
       orderBy: {
-        fecha: 'asc',
+        fecha: "asc",
       },
     });
 
-    // 3. Preparar para OpenAI
     const chatHistory = mensajes.map((m) => ({
-      role: m.emisor === 'user' ? 'user' : 'assistant',
+      role: m.emisor === "user" ? "user" : "assistant",
       content: m.mensaje,
     }));
 
-
-
-
-
-    // Añadir nuevo mensaje del usuario
     chatHistory.push({ role: "user", content: message });
 
-    // 4. Llamar a OpenAI
-    const responseContent = await getChatbotResponse([
+    // Llamar a OpenAI
+    const respuestaDelBot = await getChatbotResponse([
       {
         role: "system",
         content:
-          "Eres un asistente de viajes útil. Tu función es ayudar al usuario a organizar viajes al mejor precio, en base a sus requerimientos. Tu lenguaje debe ser SIEMPRE educado. Te llamas Vangevid. Siempre debes saludar diciendo: Buenos días, Soy Vangevid, tu asistente de viajes personal, en qué puedo ayudarte hoy?",
+          "Eres un asistente de viajes útil. Tu función es ayudar al usuario a organizar viajes al mejor precio, en base a sus requerimientos. Tu lenguaje debe ser SIEMPRE educado. Te llamas Vangevid.",
       },
       ...chatHistory,
     ]);
 
+    // Guardar respuesta del bot
     await prisma.mensajes.create({
       data: {
         id_conversacion: conversationId,
         emisor: "assistant",
-        mensaje: responseContent,
+        mensaje: respuestaDelBot,
       },
     });
 
-    res.json({ respuesta: responseContent });
-
-
-
-    // 5. Guardar mensaje del usuario
-    await prisma.mensajes.create({
-      data: {
-        id_conversacion: conversationId,
-        emisor: "user",
-        mensaje: nuevoMensajeDelUsuario,
-      },
-    });
-
-    await prisma.mensajes.create({
-      data: {
-        id_conversacion: conversationId,
-        emisor: "assistant",
-        mensaje: response.choices[0].message.content,
-
-      },
-    });
-
-    // 6. Guardar respuesta del bot
+    // Actualizar fecha de último mensaje
     await prisma.conversaciones.update({
       where: {
         id_conversacion: conversationId,
@@ -113,10 +129,7 @@ async function procesarMensaje(req, res) {
       },
     });
 
-    // 7. Responder al frontend
-
-
-
+    // Responder al frontend
     res.json({ respuesta: respuestaDelBot });
   } catch (error) {
     console.error("Error al procesar mensaje:", error);
