@@ -9,7 +9,7 @@ datasource db {
 
 model configuraciones {
   id_config Int    @id @default(autoincrement())
-  clave     String @db.VarChar(255)
+  clave     String @unique @db.VarChar(255)
   valor     String @db.Text
 }
 

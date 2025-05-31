@@ -100,12 +100,20 @@ async function procesarMensaje(req, res) {
 
     chatHistory.push({ role: "user", content: message });
 
+    // Cargar mensaje de bienvenida desde la base de datos
+    const configBienvenida = await prisma.configuraciones.findFirst({
+      where: { clave: "mensaje_bienvenida" },
+    });
+
+    const mensajeBienvenida = configBienvenida?.valor || 
+    "Buenos días, Soy AteneAI, tu asistente de viajes personal";
+
     // Llamar a OpenAI
     const respuestaDelBot = await getChatbotResponse([
       {
         role: "system",
         content:
-          "Eres un asistente de viajes útil. Tu función es ayudar al usuario a organizar viajes al mejor precio, en base a sus requerimientos. Tu lenguaje debe ser SIEMPRE educado. Te llamas Vangevid.",
+          `Eres un asistente de viajes útil. Tu función es ayudar al usuario a organizar viajes al mejor precio, en base a sus requerimientos. Tu lenguaje debe ser SIEMPRE educado. Te llamas Vangevid. Siempre debes saludar diciendo: ${mensajeBienvenida}`,
       },
       ...chatHistory,
     ]);

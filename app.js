@@ -1,11 +1,18 @@
 const express = require('express');
 const app = express();
-const userRoutes = require('./routes/userRoutes');
-const chatRoutes = require("./routes/chatRoutes");
 
-app.use(express.json()); // Middleware para JSON
-app.use('/api/usuarios', userRoutes); // Rutas montadas
-app.use('/api/chat', chatRoutes); // Rutas montadas
+// Middlewares
+app.use(express.json());
+
+// Rutas
+const userRoutes = require('./routes/userRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const configRoutes = require('./routes/configRoutes'); // <- esta línea importa configRoutes
+
+app.use('/api/usuarios', userRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/configuraciones', configRoutes); // <- esta línea la usa
+
 app.get('/', (req, res) => {
   res.send('Bienvenido al servidor');
 });
