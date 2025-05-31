@@ -4,8 +4,26 @@ const { detectIntentFromMessage } = require("../services/intent.js"); // lo crea
 
 async function procesarMensaje(req, res) {
   const { userId, message } = req.body;
-  console.log("procesarMensaje llamado con body:", req.body);
+  try {
+    // Obtener el valor de modo_mantenimiento desde la base de datos
+    const configMantenimiento = await prisma.configuraciones.findUnique({
+      where: { clave: "modo_mantenimiento" },
+    });
 
+    const modoMantenimiento = configMantenimiento?.valor === "true";
+
+    if (modoMantenimiento) {
+      // Si está en modo mantenimiento, devolver mensaje y no procesar más
+      return res.status(503).json({
+        mensaje: "El servicio está en mantenimiento. Por favor, inténtalo más tarde.",
+      });
+    }
+    console.log("procesarMensaje llamado con body:", req.body);
+    } catch (error) {
+    console.error("Error al procesar mensaje:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+  
   try {
     // Buscar conversación activa
     let conversation = await prisma.conversaciones.findFirst({
