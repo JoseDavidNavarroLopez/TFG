@@ -5,10 +5,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-async function getChatbotResponse(messages) {
+async function getChatbotResponse(messages, temperatura = 0.7) {
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages,
+    temperature: temperatura,
   });
 
   return response.choices[0].message.content;
@@ -29,5 +30,8 @@ Mensaje: "${message}"`;
   return intent;
 }
 
-module.exports = { detectIntentFromMessage };
-module.exports = { getChatbotResponse };
+module.exports = {
+  getChatbotResponse,
+  detectIntentFromMessage,
+};
+

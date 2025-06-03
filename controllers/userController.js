@@ -1,4 +1,4 @@
-// Lógica del controlador de usuarios
+
 
 exports.getAllUsers = (req, res) => {
   res.json([
@@ -7,7 +7,6 @@ exports.getAllUsers = (req, res) => {
   ]);
 };
 
-// controllers/userController.js
 const prisma = require('../prisma');
 
 exports.getAllUsers = async (req, res) => {
@@ -22,16 +21,44 @@ exports.getAllUsers = async (req, res) => {
 //añadir users
 exports.createUser = async (req, res) => {
   try {
-    const { nombre, email } = req.body;
+    const { name, email, password } = req.body;
+
     const nuevoUsuario = await prisma.usuarios.create({
       data: {
-        nombre,
+        nombre: name,
         email,
+        contraseña: password,
       },
     });
+
     res.status(201).json(nuevoUsuario);
   } catch (error) {
     console.error('Error al crear usuario:', error);
     res.status(500).json({ error: 'No se pudo crear el usuario' });
   }
 };
+
+//Login
+
+exports.loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const usuario = await prisma.usuarios.findUnique({
+      where: { email },
+    });
+
+    if (!usuario || usuario.contraseña !== password) {
+      return res.status(401).json({ error: 'Email o contraseña incorrectos' });
+    }
+
+    res.json({
+      email: usuario.email,
+      name: usuario.nombre,
+    });
+  } catch (error) {
+    console.error('Error en login:', error);
+    res.status(500).json({ error: 'Error en el login' });
+  }
+};
+

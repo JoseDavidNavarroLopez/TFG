@@ -126,6 +126,12 @@ async function procesarMensaje(req, res) {
     const mensajeBienvenida = configBienvenida?.valor || 
     "Buenos días, Soy AteneAI, tu asistente de viajes personal";
 
+    // Obtener configuración de temperatura
+    const configTemperatura = await prisma.configuraciones.findFirst({
+      where: { clave: "temperatura" },
+    });
+    const temperatura = parseFloat(configTemperatura?.valor || "0.7");
+
     // Llamar a OpenAI
     const respuestaDelBot = await getChatbotResponse([
       {

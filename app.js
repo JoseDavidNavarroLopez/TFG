@@ -9,12 +9,13 @@ const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const configRoutes = require('./routes/configRoutes'); // <- esta línea importa configRoutes
 
-app.use('/api/usuarios', userRoutes);
+app.use('/', userRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/configuraciones', configRoutes); // <- esta línea la usa
 
+/*
 app.get('/', (req, res) => {
   res.send('Bienvenido al servidor');
-});
+});*/
 
 module.exports = app;

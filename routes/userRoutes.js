@@ -7,6 +7,6 @@ router.get('/', userController.getAllUsers);
 
 
 // Ruta para crear un usuario
-router.post('/', userController.createUser);
+router.post('/register', userController.createUser);
 
 module.exports = router;
