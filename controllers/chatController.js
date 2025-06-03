@@ -23,6 +23,7 @@ async function procesarMensaje(req, res) {
     console.error("Error al procesar mensaje:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
+
   
   try {
     // Buscar conversación activa
@@ -127,17 +128,26 @@ async function procesarMensaje(req, res) {
     "Buenos días, Soy AteneAI, tu asistente de viajes personal";
 
     // Obtener configuración de temperatura
-    const configTemperatura = await prisma.configuraciones.findFirst({
-      where: { clave: "temperatura" },
-    });
-    const temperatura = parseFloat(configTemperatura?.valor || "0.7");
+
+    let temperatura;
+    // ESPERANDO AL FRONT PARA CREAR LA VARIABLE MODOMATEMATICO DEBE SER UN BOOLEANO 
+    if(!modoMatematico){
+      const configTemperatura = await prisma.configuraciones.findFirst({
+        where: { clave: "temperatura" },
+      });
+       temperatura= parseFloat(configTemperatura?.valor || "0.7");
+    }else {
+      temperatura = 0.3; 
+    }
+
+    
 
     // Llamar a OpenAI
     const respuestaDelBot = await getChatbotResponse([
       {
         role: "system",
         content:
-          `Eres un asistente de viajes útil. Tu función es ayudar al usuario a organizar viajes al mejor precio, en base a sus requerimientos. Tu lenguaje debe ser SIEMPRE educado. Te llamas Vangevid. Siempre debes saludar diciendo: ${mensajeBienvenida}`,
+          `Eres un asistente de viajes útil. Tu función es ayudar al usuario a organizar viajes al mejor precio, en base a sus requerimientos. Tu lenguaje debe ser SIEMPRE educado. Saluda diciendo en tu primer mensaje: ${mensajeBienvenida}`,
       },
       ...chatHistory,
     ], temperatura);
