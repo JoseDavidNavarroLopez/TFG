@@ -140,7 +140,7 @@ async function procesarMensaje(req, res) {
           `Eres un asistente de viajes útil. Tu función es ayudar al usuario a organizar viajes al mejor precio, en base a sus requerimientos. Tu lenguaje debe ser SIEMPRE educado. Te llamas Vangevid. Siempre debes saludar diciendo: ${mensajeBienvenida}`,
       },
       ...chatHistory,
-    ]);
+    ], temperatura);
 
     // Guardar respuesta del bot
     await prisma.mensajes.create({
