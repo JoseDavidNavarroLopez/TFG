@@ -7,11 +7,13 @@ app.use(express.json());
 // Rutas
 const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
-const configRoutes = require('./routes/configRoutes'); // <- esta línea importa configRoutes
+const configRoutes = require('./routes/configRoutes'); 
+const conversationRoutes = require('./routes/chatRoutes');
 
 app.use('/', userRoutes);
 app.use('/api/chat', chatRoutes);
-app.use('/configuraciones', configRoutes); // <- esta línea la usa
+app.use('/configuraciones', configRoutes);
+app.use('/conversaciones', conversationRoutes);
 
 /*
 app.get('/', (req, res) => {
