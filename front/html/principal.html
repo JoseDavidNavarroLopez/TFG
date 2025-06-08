@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AteneAI</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+
+</head>
+<body>
+  <header style="padding:5px;">
+    <div></div>
+      <button class="menu-btn" onclick="showLogin()"><img src="../recursos/peerfil.png" style="height:30px;width:30px;margin-top:10px;margin-right:10px"></button></button>
+  </header>
+
+ <main style="text-align: center; padding: 50px 20px;">
+<h1 class="hero-title"> AteneAI</h1>
+  <button onclick="goToChat()" class="new-chat-btn" style="margin: 30px auto;">Empezar a chatear</button>
+
+  <section id="historia" style="margin-top: 0px; max-width: 1000px; margin-inline: auto; padding: 2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <h2 style="font-size: 2rem; color: #5A189A; margin-bottom: 1rem; text-align: center;"> Historia de <span style="font-weight: bold;">AteneAI</span></h2>
+    
+    <p style="font-size: 1.1rem; line-height: 1.5; color: #333;">
+      <strong>AteneAI</strong> nació con una visión clara: ofrecer una inteligencia artificial más 
+      <span style="color: #7B2CBF; font-weight: bold;">personalizada, accesible y cercana</span> al usuario.
+      Frente a las soluciones comerciales existentes —muchas veces <em>complejas, impersonales o recargadas</em>— 
+      <strong>AteneAI</strong> apuesta por la <span style="color: #5A189A; font-weight: bold;">simplicidad, la calidez y la funcionalidad</span>.
+    </p>
+
+    <p style="margin-top: 1rem; font-size: 1.05rem; color: #444; line-height: 1.5;">
+      Este asistente no solo utiliza uno de los modelos de procesamiento de lenguaje <strong>más avanzados del momento</strong>, 
+      sino que también se presenta en una interfaz <span style="font-style: italic; color: #9D4EDD;">limpia, intuitiva y agradable a la vista</span>, 
+      pensada para que cualquier persona pueda interactuar sin barreras ni complicaciones.
+    </p>
+
+    <p style="margin-top: 1rem; font-size: 1.1rem; color: #222; line-height: 1.5;">
+      En esencia, <strong>AteneAI</strong> es más que una IA: es una <span style="font-weight: bold; color: #3C096C;">compañera inteligente</span> 
+      diseñada para ayudarte, entenderte y crecer contigo. 
+    </p>
+  </section>
+</main>
+
+
+
+    <!--Inicio de sesion y creacion de cuenta-->
+
+<div id="loginModal" class="login-modal">
+    <div class="login-content">
+      <h3 style="text-align: center;">Iniciar Sesión</h3>
+      <input type="email" id="loginEmail" placeholder="Correo electrónico" />
+      <input type="password" id="loginPassword" placeholder="Contraseña" />
+      <p style="text-align:center;">
+        ¿No tienes cuenta?
+        <a href="#" onclick="showRegister()">Crear una cuenta</a>
+      </p>
+      
+      <button onclick="handleLogin()">Entrar</button>
+      <button class="close-btn" onclick="closeLogin()">Cerrar</button>
+    </div>
+  </div>
+  <div id="registerModal" class="login-modal">
+    <div class="login-content">
+      <h3 style="text-align: center;">Crear Cuenta</h3>
+      <input type="text" id="registerName" placeholder="Tu nombre" />
+      <input type="email" id="registerEmail" placeholder="Correo electrónico" />
+      <input type="password" id="registerPassword" placeholder="Contraseña" />
+      <button onclick="handleRegister()">Registrarse</button>
+      <button onclick="closeRegister()">Cancelar</button>
+    </div>
+    
+  </div>
+
+  <script src="../js/script.js"></script>
+
+</body>
+
+</html>

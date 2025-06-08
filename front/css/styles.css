@@ -1,0 +1,359 @@
+:root {
+  --bg-color: #c6d7f0;
+  --text-color: #000000;
+  --bot-bg: #c6d7f0;
+  --user-bg: #007bff;
+  --header-bg: #8b8eaf;
+  --input-bg: #c6d7f0;
+  --button-hover-bg: #111111;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  --input-color: #d3e0e0;
+  --secundary-colors:rgb(240, 240, 240);
+}
+
+body.dark {
+  --bg-color: #1e1e2f;
+  --text-color: #f1f1f1;
+  --bot-bg: #3a3b4b;
+  --user-bg: #007bff;
+  --header-bg: #202123;
+  --input-bg: #2c2d3a;
+  --button-hover-bg: #444444;
+  --shadow-color: rgba(70, 70, 70, 0.192);
+  --input-color: #afdffa;
+   --secundary-colors:rgb(48, 48, 53);
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header {
+  background-color: var(--header-bg);
+  color: #ffffff;
+  padding: 10px 18px;
+  text-align: center;
+  font-size: 1.6em;
+  font-family: Times New Roman;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.menu {
+  display: flex;
+  gap: 15px;
+}
+.menu-btn {
+  font-size: 1.5em;
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.side-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background-color: var(--bg-color);
+  box-shadow: -2px 0 5px var(--shadow-color);
+  padding: 20px;
+  z-index: 100;
+}
+
+.menu-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-menu button {
+  background: var(--header-bg);
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.side-menu button:hover {
+  background: var(--button-hover-bg);
+}
+
+.chat-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scroll-behavior: smooth;
+}
+
+.message {
+  max-width: 60%;
+  padding: 0px 15px;
+  border-radius: 20px;
+  margin-bottom: 15px;
+  line-height: 1.4;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user {
+  align-self: flex-end;
+  background-color: var(--user-bg);
+  color: white;
+}
+
+.bot {
+  align-self: flex-start;
+  background-color: var(--secundary-colors);
+  color: var(--text-color);
+}
+
+.input-area {
+  display: flex;
+  padding: 10px;
+  padding-inline: 500px;
+  border-top: 1px solid #ccc;
+  background-color:var(--secundary-colors) ;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  background: var(--input-color);
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.input-area button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  background-color: #2e2e58;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.quick-replies {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.quick-reply {
+  background-color: #2e2e58;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 15px 10px;
+  font-size: 0.85rem;
+}
+
+.about-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--bg-color);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px var(--shadow-color);
+  display: none;
+  z-index: 1000;
+}
+
+.about-content button {
+  background: var(--header-bg);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.login-btn {
+  background-color: #3d4fb4;
+  color: white;
+  border: none;
+  padding: 0px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.login-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.login-content {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-content input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+  color: var(--text-color);
+}
+
+.login-content button {
+  background-color: var(--header-bg);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.login-content button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.close-btn {
+  background-color: #999999 !important;
+}
+
+/*Boton de comenzar a chatear*/
+.new-chat-btn {
+  background: linear-gradient(135deg, #5A189A, #9D4EDD);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(90, 24, 154, 0.3);
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.new-chat-btn:hover {
+  background: linear-gradient(135deg, #7B2CBF, #C77DFF);
+  box-shadow: 0 12px 24px rgba(124, 58, 237, 0.4);
+  transform: scale(1.05);
+}
+
+/* Estilo para cuando el botón está activo */
+#modoMatematicoBtn.active {
+  background-color: #ffd70033;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 2px #ffd700aa;
+}
+
+/* Estilo para historial de chats */
+.chat-history {
+  margin-top: 15px;
+  max-height: 70vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 5px;
+}
+
+.chat-history button {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.chat-history button:hover {
+  background-color: var(--button-hover-bg);
+  color: white;
+  box-shadow: 0 0 8px var(--shadow-color);
+}
+
+.chat-btn {
+  background: linear-gradient(145deg, #20326e, #5eac98);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(90, 24, 154, 0.3);
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/*Estilo titulo pag principal*/
+.hero-title {
+  font-size: 3.5rem;
+  font-style: italic;
+  font-weight: 800;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #079db8, #fd40f4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(90, 24, 154, 0.2);
+  letter-spacing: 2px;
+}
