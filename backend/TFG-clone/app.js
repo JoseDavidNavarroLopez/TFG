@@ -7,7 +7,7 @@ app.use(express.static(path.join(__dirname, '../front')));
 
 // Ruta raíz: enviar el HTML principal
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../front/html', 'principal.html'));
+  res.sendFile(path.join(__dirname, '../front/html', 'index.html'));
 });
 
 // Middlewares
