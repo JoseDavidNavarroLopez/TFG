@@ -128,7 +128,7 @@ async function procesarMensaje(req, res) {
     "Buenos días, Soy AteneAI, tu asistente de viajes personal";
 
     // Obtener configuración de temperatura
-
+    let modoMatematico = req.body.modoMatematico ?? false;
     let temperatura;
     // ESPERANDO AL FRONT PARA CREAR LA VARIABLE MODOMATEMATICO DEBE SER UN BOOLEANO 
     if(!modoMatematico){
