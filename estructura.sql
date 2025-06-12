@@ -9,7 +9,7 @@ CREATE TABLE `usuarios` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255),
-  `contraseña` VARCHAR(255),
+  `password` VARCHAR(255),
   `fecha_registro` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `ultima_actividad` TIMESTAMP,
   PRIMARY KEY (`id_usuario`)
