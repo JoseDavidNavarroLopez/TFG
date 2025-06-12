@@ -158,7 +158,7 @@ function handleLogin() {
     return;
   }
 
-  fetch('http://localhost:10000/backend/userController', {
+  fetch('https://tfg-backend.onrender.com/backend/userController', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
@@ -190,7 +190,7 @@ function handleRegister() {
     return;
   }
 
-  fetch('http://localhost:10000/backend/userController', {
+  fetch('https://tfg-backend.onrender.com/backend/userController', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, password })
@@ -298,7 +298,7 @@ function loadChatHistory() {
     return;
   }
 
-  fetch(`http://localhost:10000/chats?email=${email}`)
+  fetch(`https://tfg-backend.onrender.com/chats?email=${email}`)
     .then(res => {
       if (!res.ok) throw new Error('Error al obtener historial');
       return res.json();
@@ -327,7 +327,7 @@ function loadChatHistory() {
 }
 
 function loadChatById(chatId) {
-  fetch(`http://localhost:10000/chats/${chatId}`)
+  fetch(`https://tfg-backend.onrender.com/chats/${chatId}`)
     .then(res => {
       if (!res.ok) throw new Error('Error al cargar el chat');
       return res.json();
