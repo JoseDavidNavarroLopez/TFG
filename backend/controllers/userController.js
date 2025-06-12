@@ -27,7 +27,7 @@ exports.createUser = async (req, res) => {
       data: {
         nombre: name,
         email,
-        contraseña: password,
+        password: password,
       },
     });
 
@@ -48,7 +48,7 @@ exports.loginUser = async (req, res) => {
       where: { email },
     });
 
-    if (!usuario || usuario.contraseña !== password) {
+    if (!usuario || usuario.password !== password) {
       return res.status(401).json({ error: 'Email o contraseña incorrectos' });
     }
 
