@@ -158,7 +158,7 @@ function handleLogin() {
     return;
   }
 
-  fetch('http://localhost:10000/login', {
+  fetch('http://localhost:10000/backend/userController', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
@@ -190,7 +190,7 @@ function handleRegister() {
     return;
   }
 
-  fetch('http://localhost:10000/register', {
+  fetch('http://localhost:10000/backend/userController', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, password })
