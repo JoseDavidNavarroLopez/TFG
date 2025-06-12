@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Backend para TFG",
   "main": "index.js",
-  "scripts": {
+   "scripts": {
+    "build": "npx prisma generate",
     "start": "node index.js"
-  },
+  }
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",
