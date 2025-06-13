@@ -66,7 +66,7 @@ model respuestas {
 model usuarios {
   id_usuario       Int              @id @default(autoincrement())
   nombre           String           @db.VarChar(255)
-  email            String?          @db.VarChar(255)
+  email            String?          @unique @db.VarChar(255)
   password         String?           @db.VarChar(255)
   fecha_registro   DateTime?        @default(now()) @db.DateTime(0)
   ultima_actividad DateTime?        @default(now()) @db.DateTime(0)
