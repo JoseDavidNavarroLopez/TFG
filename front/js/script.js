@@ -158,7 +158,7 @@ function handleLogin() {
     return;
   }
 
-  fetch('https://tfg-backend.onrender.com/backend/userController', {
+  fetch('/usuarios/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
@@ -178,6 +178,7 @@ function handleLogin() {
   })
   .catch(err => console.error("Error:", err));
 }
+
 
 //CONFIGURAR REGISTRO*****************************************************************************************************
 function handleRegister() {
