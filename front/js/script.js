@@ -191,7 +191,7 @@ function handleRegister() {
     return;
   }
 
-  fetch('https://tfg-backend.onrender.com/backend/userController', {
+  fetch('/usuarios/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, password })
