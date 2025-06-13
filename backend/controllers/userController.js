@@ -40,7 +40,7 @@ exports.createUser = async (req, res) => {
 
 //Login
 
-exports.loginUser = async (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -55,10 +55,12 @@ exports.loginUser = async (req, res) => {
     res.json({
       email: usuario.email,
       name: usuario.nombre,
+      id: usuario.id, // opcional si lo necesitas en el frontend
     });
   } catch (error) {
     console.error('Error en login:', error);
     res.status(500).json({ error: 'Error en el login' });
   }
 };
+
 
