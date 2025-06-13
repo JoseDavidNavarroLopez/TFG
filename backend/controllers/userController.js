@@ -55,7 +55,7 @@ exports.login = async (req, res) => {
     res.json({
       email: usuario.email,
       name: usuario.nombre,
-      id: usuario.id, // opcional si lo necesitas en el frontend
+      id: usuario.id_usuario, // opcional si lo necesitas en el frontend
     });
   } catch (error) {
     console.error('Error en login:', error);
