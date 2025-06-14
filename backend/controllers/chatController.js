@@ -182,3 +182,36 @@ async function procesarMensaje(req, res) {
 module.exports = {
   procesarMensaje,
 };
+
+
+async function obtenerHistorialChats(req, res) {
+  const { email } = req.query;
+  if (!email) {
+    return res.status(400).json({ error: "Email requerido" });
+  }
+
+  try {
+    const usuario = await prisma.usuarios.findUnique({
+      where: { email },
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    const chats = await prisma.conversaciones.findMany({
+      where: { id_usuario: usuario.id_usuario },
+      orderBy: { fecha_creacion: "desc" },
+      select: {
+        id_conversacion: true,
+        fecha_creacion: true,
+        estado: true,
+      },
+    });
+
+    res.json(chats);
+  } catch (err) {
+    console.error("Error obteniendo historial:", err);
+    res.status(500).json({ error: "Error al obtener historial de chats" });
+  }
+}
