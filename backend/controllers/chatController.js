@@ -202,7 +202,7 @@ async function obtenerHistorialChats(req, res) {
       orderBy: { fecha_inicio: "desc" },
       select: {
         id_conversacion: true,
-        fecha_creacion: true,
+        fecha_inicio: true,
         estado: true,
       },
     });
