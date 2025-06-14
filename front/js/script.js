@@ -292,6 +292,16 @@ function toggleChatHistory() {
   }
 }
 
+function clearChat() {
+  const chatContainer = document.getElementById("chat-container");
+  if (chatContainer) {
+    chatContainer.innerHTML = ""; // Elimina todos los mensajes del contenedor
+  } else {
+    console.warn("Contenedor de chat no encontrado: #chat-container");
+  }
+}
+
+
 function loadChatHistory() {
   const email = sessionStorage.getItem('userEmail');
   if (!email) {
