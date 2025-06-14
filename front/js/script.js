@@ -26,7 +26,7 @@ function sendMessage() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": Bearer ${API_KEY}
+        "Authorization":` Bearer ${API_KEY}`
       },
       body: JSON.stringify({
         model: "deepseek-chat",
@@ -44,7 +44,7 @@ function sendMessage() {
         if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
           botMsg = data.choices[0].message.content;
         } else if (data.error) {
-          botMsg = Error: ${data.error.message};
+          botMsg = `Error: ${data.error.message};`
         }
   
         removeTyping();
@@ -59,7 +59,7 @@ function sendMessage() {
 //---------------------------------------------------------------------------------------------------------------------------------
 function appendMessage(text, sender, isTyping = false) {
     const msg = document.createElement('div');
-    msg.className = message ${sender};
+    msg.className = `message ${sender};`
   
     // Convertir Markdown a HTML utilizando Showdown
     const converter = new showdown.Converter();
@@ -172,7 +172,7 @@ function handleLogin() {
       sessionStorage.setItem('userName', data.name);
       sessionStorage.setItem('userId', data.id); // Guardamos el ID del usuario
 
-      alert(¡Bienvenido, ${data.name}!);
+      alert(`¡Bienvenido, ${data.name}!`);
       closeLogin();
     }
   })
@@ -342,7 +342,7 @@ function loadChatHistory() {
 }
 
 function loadChatById(chatId) {
-  fetch(/api/chat/${encodeURIComponent(chatId)})
+  fetch(`/api/chat/${encodeURIComponent(chatId)}`)
     .then(res => {
       if (!res.ok) throw new Error('Error al cargar el chat');
       return res.json();
