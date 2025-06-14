@@ -2,13 +2,11 @@ const express = require("express");
 const router = express.Router();
 const {
   procesarMensaje,
-  obtenerHistorialChats, // <-- Asegúrate de importar la nueva función
+  obtenerHistorialChats, 
 } = require("../controllers/chatController");
 
-// Ruta para procesar mensajes (POST)
 router.post("/", procesarMensaje);
 
-// Ruta para obtener historial de chats por email (GET)
-router.post("/", obtenerHistorialChats);
+router.post("/historial", obtenerHistorialChats);
 
 module.exports = router;
