@@ -199,7 +199,7 @@ async function obtenerHistorialChats(req, res) {
 
     const chats = await prisma.conversaciones.findMany({
       where: { id_usuario: usuario.id_usuario },
-      orderBy: { fecha_creacion: "desc" },
+      orderBy: { fecha_inicio: "desc" },
       select: {
         id_conversacion: true,
         fecha_creacion: true,
