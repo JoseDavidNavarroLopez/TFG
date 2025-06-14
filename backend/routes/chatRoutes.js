@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   procesarMensaje,
   obtenerHistorialChats, 
+  obtenerChatPorId,
 } = require("../controllers/chatController");
 
 router.post("/", procesarMensaje);
