@@ -277,7 +277,7 @@ document.getElementById('statusMessage').textContent = modoMatematico ? 'Modo Ma
     btn.classList.remove('active');
   }
 
-  alert(Modo matemático ${modoMatematico ? 'activado (temperatura 0.3)' : 'desactivado (temperatura 0.7)'});
+  alert(`Modo matemático ${modoMatematico ? 'activado (temperatura 0.3)' : 'desactivado (temperatura 0.7)'}`);
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
