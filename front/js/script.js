@@ -236,11 +236,11 @@ function showUserMenu() {
   menu.style.boxShadow = '0 4px 10px var(--shadow-color)';
   menu.style.zIndex = '1000';
 
-   menu.innerHTML = 
+   menu.innerHTML =` 
     <p style="margin: 5px 0;">👋 Hola, <strong>${name}</strong></p>
     <p style="margin: 5px 0; font-size: 0.9em; color: gray;">${email}</p>
     <button onclick="openSettings()">Ajustes</button>
-    <button onclick="logout()">Cerrar sesión</button>
+    <button onclick="logout()">Cerrar sesión</button>`
   ;
 
   closeUserMenu(); // Elimina otro menú si ya está
