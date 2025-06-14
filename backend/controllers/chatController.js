@@ -213,8 +213,33 @@ async function obtenerHistorialChats(req, res) {
     res.status(500).json({ error: "Error al obtener historial de chats" });
   }
 }
+async function obtenerChatPorId(req, res) {
+  const { id } = req.params;
+
+  try {
+    const mensajes = await prisma.mensajes.findMany({
+      where: { id_conversacion: parseInt(id) },
+      orderBy: { fecha: 'asc' },
+      select: {
+        mensaje: true,
+        emisor: true,
+      },
+    });
+
+    if (!mensajes || mensajes.length === 0) {
+      return res.status(404).json({ error: "Chat no encontrado o sin mensajes" });
+    }
+
+    res.json({ messages: mensajes });
+  } catch (error) {
+    console.error("Error obteniendo chat por ID:", error);
+    res.status(500).json({ error: "Error al obtener chat" });
+  }
+}
+
 
 module.exports = {
   procesarMensaje,
   obtenerHistorialChats,
+  obtenerChatPorId,
 };
