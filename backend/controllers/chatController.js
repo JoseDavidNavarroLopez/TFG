@@ -179,9 +179,7 @@ async function procesarMensaje(req, res) {
   }
 }
 
-module.exports = {
-  procesarMensaje,
-};
+
 
 
 async function obtenerHistorialChats(req, res) {
@@ -215,3 +213,8 @@ async function obtenerHistorialChats(req, res) {
     res.status(500).json({ error: "Error al obtener historial de chats" });
   }
 }
+
+module.exports = {
+  procesarMensaje,
+  obtenerHistorialChats,
+};
