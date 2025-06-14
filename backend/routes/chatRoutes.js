@@ -9,6 +9,6 @@ const {
 router.post("/", procesarMensaje);
 
 // Ruta para obtener historial de chats por email (GET)
-router.get("/", obtenerHistorialChats);
+router.post("/", obtenerHistorialChats);
 
 module.exports = router;
