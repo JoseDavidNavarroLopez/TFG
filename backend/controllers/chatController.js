@@ -95,7 +95,7 @@ async function procesarMensaje(req, res) {
         intent = await prisma.intents.create({
           data: {
             nombre: intentName,
-            descripcion: Detectado automáticamente desde el primer mensaje del usuario.,
+            descripcion: `Detectado automáticamente desde el primer mensaje del usuario.`,
           },
         });
       }
@@ -128,10 +128,8 @@ async function procesarMensaje(req, res) {
     const mensajeBienvenida = configBienvenida?.valor || 
     "Buenos días, Soy AteneAI, tu asistente de viajes personal";
 
-    // Obtener configuración de temperatura
     let modoMatematico = req.body.modoMatematico ?? false;
     let temperatura;
-    // ESPERANDO AL FRONT PARA CREAR LA VARIABLE MODOMATEMATICO DEBE SER UN BOOLEANO 
     if(!modoMatematico){
       const configTemperatura = await prisma.configuraciones.findFirst({
         where: { clave: "temperatura" },
@@ -148,7 +146,7 @@ async function procesarMensaje(req, res) {
       {
         role: "system",
         content:
-          Eres un asistente de viajes útil. Tu función es ayudar al usuario a organizar viajes al mejor precio, en base a sus requerimientos. Tu lenguaje debe ser SIEMPRE educado. Saluda diciendo en tu primer mensaje: ${mensajeBienvenida},
+          `Eres un asistente de viajes útil. Tu función es ayudar al usuario a organizar viajes al mejor precio, en base a sus requerimientos. Tu lenguaje debe ser SIEMPRE educado. Saluda diciendo en tu primer mensaje: ${mensajeBienvenida}`,
       },
       ...chatHistory,
     ], temperatura);
