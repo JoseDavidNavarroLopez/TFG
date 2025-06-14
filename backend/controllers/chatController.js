@@ -100,7 +100,7 @@ async function procesarMensaje(req, res) {
         });
       }
 
-      console.log(Intent detectado: ${intent.nombre});
+      console.log(`Intent detectado: ${intent.nombre}`);
     }
 
     // Obtener historial
