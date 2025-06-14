@@ -299,7 +299,11 @@ function loadChatHistory() {
     return;
   }
 
-  fetch(`https://tfg-backend.onrender.com/chats?email=${email}`)
+  fetch('/api/chat/historial', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  })
     .then(res => {
       if (!res.ok) throw new Error('Error al obtener historial');
       return res.json();
@@ -310,7 +314,7 @@ function loadChatHistory() {
 
       chats.forEach(chat => {
         const li = document.createElement('li');
-        const date = new Date(chat.createdAt).toLocaleString();
+        const date = new Date(chat.fecha_creacion).toLocaleString();
         li.textContent = date;
         li.style.cursor = 'pointer';
         li.style.padding = '6px 10px';
@@ -320,7 +324,7 @@ function loadChatHistory() {
         li.style.color = 'var(--text-color)';
         li.onmouseover = () => li.style.background = 'var(--button-hover-bg)';
         li.onmouseout = () => li.style.background = 'var(--input-bg)';
-        li.onclick = () => loadChatById(chat._id);
+        li.onclick = () => loadChatById(chat.id_conversacion);
         list.appendChild(li);
       });
     })
@@ -328,7 +332,7 @@ function loadChatHistory() {
 }
 
 function loadChatById(chatId) {
-  fetch(`https://tfg-backend.onrender.com/chats/${chatId}`)
+  fetch(`/api/chat/${encodeURIComponent(chatId)}`)
     .then(res => {
       if (!res.ok) throw new Error('Error al cargar el chat');
       return res.json();
@@ -336,11 +340,12 @@ function loadChatById(chatId) {
     .then(chat => {
       clearChat(); // limpia el contenedor del chat actual
       chat.messages.forEach(msg => {
-        appendMessage(msg.content, msg.role);
+        appendMessage(msg.mensaje, msg.emisor === 'user' ? 'user' : 'assistant');
       });
     })
     .catch(err => console.error('Error cargando chat:', err));
 }
+
 
 //---------------------------------------------------------------------------------------------------------------------------------
 
