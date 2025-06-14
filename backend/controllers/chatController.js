@@ -81,7 +81,8 @@ async function procesarMensaje(req, res) {
     await prisma.logs_actividad.create({
       data: {
         id_usuario: userId,
-        accion: Envió mensaje: "${message}",
+        accion: `Envió mensaje: "${message}"`,
+
       },
     });
     
