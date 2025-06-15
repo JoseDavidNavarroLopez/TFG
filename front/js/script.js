@@ -330,7 +330,7 @@ function loadChatHistory() {
     .then(chats => {
       const list = document.getElementById('chatList');
       list.innerHTML = '';
-
+        console.log(chats);
       chats.forEach(chat => {
         const li = document.createElement('li');
         const date = new Date(chat.fecha_creacion).toLocaleString();
