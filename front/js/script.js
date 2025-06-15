@@ -293,7 +293,7 @@ function toggleChatHistory() {
 }
 
 function clearChat() {
-  const chatContainer = document.getElementById("chat-container");
+  const chatContainer = document.getElementById("chat");
   if (chatContainer) {
     chatContainer.innerHTML = ""; // Elimina todos los mensajes del contenedor
   } else {
