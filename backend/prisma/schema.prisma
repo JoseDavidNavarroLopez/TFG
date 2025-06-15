@@ -19,7 +19,7 @@ model conversaciones {
   fecha_inicio         DateTime?  @default(now()) @db.DateTime(0)
   fecha_ultimo_mensaje DateTime?  @default(now()) @db.DateTime(0)
   estado               String?    @default("en curso") @db.VarChar(50)
-  titulo               String?    db.VarChar(255)
+  titulo               String?    @db.VarChar(255)
   usuarios             usuarios?  @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "conversaciones_ibfk_1")
   mensajes             mensajes[]
 
