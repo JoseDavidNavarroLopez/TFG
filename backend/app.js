@@ -26,7 +26,7 @@ const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const configRoutes = require('./routes/configRoutes'); 
 const conversationRoutes = require('./routes/conversationRoutes'); 
-const chatRoutes = require("./routes/chatRoutes");
+const mensajeRoutes = require("./routes/mensajeRoutes");
 
 
 app.use('/usuarios', userRoutes);
