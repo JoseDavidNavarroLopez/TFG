@@ -8,6 +8,7 @@ const responderAsistente = (mensaje) => {
 const guardarMensaje = async (req, res) => {
   try {
     const { id_usuario, mensaje, id_conversacion } = req.body;
+     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
 
     // Validación básica
     if (!mensaje || !id_usuario) {
