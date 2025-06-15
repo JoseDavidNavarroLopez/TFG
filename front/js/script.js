@@ -334,7 +334,8 @@ function loadChatHistory() {
       chats.forEach(chat => {
         const li = document.createElement('li');
         const date = new Date(chat.fecha_creacion).toLocaleString();
-        li.textContent = date;
+        const title=chat.title;
+        li.textContent = title;
         li.style.cursor = 'pointer';
         li.style.padding = '6px 10px';
         li.style.borderRadius = '8px';
