@@ -203,6 +203,7 @@ async function obtenerHistorialChats(req, res) {
         id_conversacion: true,
         fecha_inicio: true,
         estado: true,
+        titulo:true,
       },
     });
 
