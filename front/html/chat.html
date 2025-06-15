@@ -24,12 +24,12 @@
 
       <span class="title">AteneAI</span>
     </div>
-    <button onclick="mostrarInputNuevoChat()">➕ Nuevo Chat</button>
+    <button onclick="mostrarInputNuevoChat()" style="background-color: #2e2e58; color: white; border: none; padding: 6px 10px; border-radius: 20px;  cursor: pointer; margin: 15px 10px; font-size: 0.85rem;">➕ Nuevo Chat</button>
 
 <!-- Modal para escribir título del nuevo chat -->
 <div id="nuevoChatModal" style="display:none; position:fixed; top:30%; left:50%; transform:translateX(-50%); background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2); z-index:999;">
   <label for="tituloChat">Pon título del chat:</label><br>
-  <input type="text" id="tituloChat" placeholder="Ej: Ideas de proyecto" style="margin: 10px 0; padding:5px; width:100%;" />
+  <input type="text" id="tituloChat" placeholder="Titulo de la conversación" style="margin: 10px 0; padding:5px; width:100%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
   <div style="text-align: right;">
     <button onclick="crearNuevoChat()">Aceptar</button>
     <button onclick="cerrarInputNuevoChat()">Cancelar</button>
