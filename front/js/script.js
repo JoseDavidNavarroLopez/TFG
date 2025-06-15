@@ -388,7 +388,7 @@ function crearNuevoChat() {
     return;
   }
 
-  fetch('/api/chat/conver', {
+  fetch('/mensaje/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, titulo }),
