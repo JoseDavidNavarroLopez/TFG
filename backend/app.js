@@ -26,10 +26,13 @@ const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const configRoutes = require('./routes/configRoutes'); 
 const conversationRoutes = require('./routes/conversationRoutes'); 
+const chatRoutes = require("./routes/chatRoutes");
+
 
 app.use('/usuarios', userRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/configuraciones', configRoutes);
 app.use('/conversaciones', conversationRoutes);
+app.use("/mensaje", mensajeRoutes);
 
 module.exports = app;
