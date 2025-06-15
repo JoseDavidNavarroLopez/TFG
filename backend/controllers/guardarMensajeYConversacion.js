@@ -1,5 +1,3 @@
-// controllers/guardarMensajeYConversacion.js
-
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -10,12 +8,18 @@ const responderAsistente = (mensaje) => {
 const guardarMensaje = async (req, res) => {
   try {
     const { id_usuario, mensaje, id_conversacion } = req.body;
+
+    // Validación básica
+    if (!mensaje || !id_usuario) {
+      return res.status(400).json({ error: "Faltan datos obligatorios" });
+    }
+
     let conversacion;
 
     if (!id_conversacion) {
       conversacion = await prisma.conversaciones.create({
         data: {
-          id_usuario: id_usuario || null,
+          id_usuario,
           titulo: mensaje.substring(0, 50),
           estado: "en curso",
         },
@@ -64,4 +68,3 @@ const guardarMensaje = async (req, res) => {
 };
 
 module.exports = { guardarMensaje };
-
