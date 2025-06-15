@@ -370,36 +370,42 @@ function loadChatById(chatId) {
     }
 
 //---------------------------------GUARDAR CONVERSACIÓN-----------------------------------------------------------------------
-async function guardarConversacionEnBackend(mensajes) {
-  const userId = sessionStorage.getItem('userId');
-  if (!userId) {
-    console.error("Usuario no identificado. No se puede guardar la conversación.");
+function mostrarInputNuevoChat() {
+  document.getElementById('nuevoChatModal').style.display = 'block';
+}
+
+function cerrarInputNuevoChat() {
+  document.getElementById('nuevoChatModal').style.display = 'none';
+  document.getElementById('tituloChat').value = ''; // Limpia input
+}
+
+function crearNuevoChat() {
+  const titulo = document.getElementById('tituloChat').value.trim();
+  const email = sessionStorage.getItem('userEmail');
+
+  if (!titulo) {
+    alert('Por favor, ingresa un título para el chat.');
     return;
   }
 
-  const payload = {
-    userId,
-    mensajes: mensajes.map(msg => ({
-      emisor: msg.emisor,
-      mensaje: msg.mensaje
-    }))
-  };
-
-  try {
-    const res = await fetch('/api/chat/conver', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+  fetch('/api/chat/conver', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, titulo }),
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Error al crear el nuevo chat');
+      return res.json();
+    })
+    .then(data => {
+      alert('Chat creado correctamente');
+      cerrarInputNuevoChat();
+      loadChatHistory(); // Actualiza la lista de chats
+    })
+    .catch(err => {
+      console.error('Error al crear nuevo chat:', err);
+      alert('Error al crear el chat');
     });
-
-    const data = await res.json();
-    if (res.ok) {
-      console.log("Conversación guardada con éxito:", data);
-    } else {
-      console.error("Error al guardar la conversación:", data.error || data);
-    }
-  } catch (error) {
-    console.error("Fallo al enviar conversación:", error);
-  }
 }
+
 
