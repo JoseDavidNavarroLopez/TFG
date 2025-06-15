@@ -294,14 +294,21 @@ function toggleChatHistory() {
 
 function clearChat() {
   const chatContainer = document.getElementById("chat");
-  const mensajeBot = document.getElementById("mensaje-bot")
+  const mensajeBot = document.getElementById("mensaje-bot");
+
   if (chatContainer) {
-    chatContainer.innerHTML = "";
-      mensajeBot.innerHTML = "¡Hola! Soy AteneAI, ¿en qué puedo ayudarte hoy?";
+    chatContainer.innerHTML = ""; 
   } else {
-    console.warn("Contenedor de chat no encontrado: #chat-container");
+    console.warn("Contenedor de chat no encontrado: #chat");
+  }
+
+  if (mensajeBot) {
+    mensajeBot.innerHTML = "¡Hola! Soy AteneAI, ¿en qué puedo ayudarte hoy?";
+  } else {
+    console.warn("Elemento no encontrado: #mensaje-bot");
   }
 }
+
 
 
 function loadChatHistory() {
