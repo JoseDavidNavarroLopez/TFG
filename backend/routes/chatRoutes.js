@@ -8,7 +8,8 @@ const {
 
 router.post("/", procesarMensaje);
 router.post("/historial", obtenerHistorialChats);
-router.get("/:id", obtenerChatPorId); 
+router.get("/:id", obtenerChatPorId);
+router.get("/conver", guardarNuevaConversacion); 
 router.get("/test", (req, res) => {
   res.send("Ruta /api/chat/test funcionando");
 });
