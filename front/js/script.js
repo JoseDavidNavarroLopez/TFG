@@ -381,31 +381,41 @@ function cerrarInputNuevoChat() {
 
 function crearNuevoChat() {
   const titulo = document.getElementById('tituloChat').value.trim();
-  const email = sessionStorage.getItem('userEmail');
+  const id_usuario = sessionStorage.getItem('userId'); // Usar el id_usuario almacenado
 
   if (!titulo) {
     alert('Por favor, ingresa un título para el chat.');
     return;
   }
 
+  if (!id_usuario) {
+    alert('Debes iniciar sesión para crear un chat.');
+    return;
+  }
+clearChat()
   fetch('/mensaje/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, titulo }),
+    body: JSON.stringify({ 
+      id_usuario, 
+      mensaje: titulo, // usas el título como mensaje inicial
+      // no envías id_conversacion para que cree una nueva conversación
+    }),
   })
-    .then(res => {
-      if (!res.ok) throw new Error('Error al crear el nuevo chat');
-      return res.json();
-    })
-    .then(data => {
-      alert('Chat creado correctamente');
-      cerrarInputNuevoChat();
-      loadChatHistory(); // Actualiza la lista de chats
-    })
-    .catch(err => {
-      console.error('Error al crear nuevo chat:', err);
-      alert('Error al crear el chat');
-    });
+  .then(res => {
+    if (!res.ok) throw new Error('Error al crear el nuevo chat');
+    return res.json();
+  })
+  .then(data => {
+    alert('Chat creado correctamente');
+    cerrarInputNuevoChat();
+    loadChatHistory(); // Actualiza la lista de chats
+  })
+  .catch(err => {
+    console.error('Error al crear nuevo chat:', err);
+    alert('Error al crear el chat');
+  });
 }
+
 
 
