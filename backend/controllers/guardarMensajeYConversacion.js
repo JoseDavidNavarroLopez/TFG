@@ -58,10 +58,11 @@ const guardarMensaje = async (req, res) => {
       data: { fecha_ultimo_mensaje: new Date() },
     });
 
-    res.json({
-      id_conversacion: conversacion.id_conversacion,
-      mensajes: [mensajeUsuario, mensajeAsistente],
-    });
+res.json({
+  id_conversacion: conversacion.id_conversacion,
+  titulo: conversacion.titulo, // agrega esto
+  mensajes: [mensajeUsuario, mensajeAsistente],
+});
   } catch (error) {
     console.error("Error al guardar mensaje:", error);
     res.status(500).json({ error: "Error del servidor" });
