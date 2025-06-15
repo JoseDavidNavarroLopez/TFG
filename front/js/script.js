@@ -368,3 +368,38 @@ function loadChatById(chatId) {
         showLogin();
       }
     }
+
+//---------------------------------GUARDAR CONVERSACIÓN-----------------------------------------------------------------------
+async function guardarConversacionEnBackend(mensajes) {
+  const userId = sessionStorage.getItem('userId');
+  if (!userId) {
+    console.error("Usuario no identificado. No se puede guardar la conversación.");
+    return;
+  }
+
+  const payload = {
+    userId,
+    mensajes: mensajes.map(msg => ({
+      emisor: msg.emisor,
+      mensaje: msg.mensaje
+    }))
+  };
+
+  try {
+    const res = await fetch('/api/chat/convers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      console.log("Conversación guardada con éxito:", data);
+    } else {
+      console.error("Error al guardar la conversación:", data.error || data);
+    }
+  } catch (error) {
+    console.error("Fallo al enviar conversación:", error);
+  }
+}
+
