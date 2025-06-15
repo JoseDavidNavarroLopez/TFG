@@ -8,7 +8,7 @@ const responderAsistente = (mensaje) => {
 const guardarMensaje = async (req, res) => {
   try {
     const { id_usuario, mensaje, id_conversacion } = req.body;
-     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
+    const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
 
     // Validación básica
     if (!mensaje || !id_usuario) {
@@ -20,7 +20,7 @@ const guardarMensaje = async (req, res) => {
     if (!id_conversacion) {
       conversacion = await prisma.conversaciones.create({
         data: {
-          id_usuario,
+          id_usuario: idUsuarioInt,
           titulo: mensaje.substring(0, 50),
           estado: "en curso",
         },
@@ -28,6 +28,11 @@ const guardarMensaje = async (req, res) => {
     } else {
       conversacion = await prisma.conversaciones.findUnique({
         where: { id_conversacion },
+        select: {
+          id_conversacion: true,
+          titulo: true,
+          // si necesitas otros campos aquí, agrégalos
+        },
       });
 
       if (!conversacion) {
@@ -58,11 +63,11 @@ const guardarMensaje = async (req, res) => {
       data: { fecha_ultimo_mensaje: new Date() },
     });
 
-res.json({
-  id_conversacion: conversacion.id_conversacion,
-  titulo: conversacion.titulo, // agrega esto
-  mensajes: [mensajeUsuario, mensajeAsistente],
-});
+    res.json({
+      id_conversacion: conversacion.id_conversacion,
+      titulo: conversacion.titulo,
+      mensajes: [mensajeUsuario, mensajeAsistente],
+    });
   } catch (error) {
     console.error("Error al guardar mensaje:", error);
     res.status(500).json({ error: "Error del servidor" });
