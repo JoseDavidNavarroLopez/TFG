@@ -402,7 +402,7 @@ fetch('/mensaje/', {
     id_usuario,       // ahora es un número
     mensaje: titulo,  // el texto del título o mensaje
   }),
-});
+})
 
   .then(res => {
     if (!res.ok) throw new Error('Error al crear el nuevo chat');
