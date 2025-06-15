@@ -393,15 +393,17 @@ function crearNuevoChat() {
     return;
   }
 clearChat()
-  fetch('/mensaje/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-      id_usuario, 
-      mensaje: titulo, // usas el título como mensaje inicial
-      // no envías id_conversacion para que cree una nueva conversación
-    }),
-  })
+ const id_usuario = Number(sessionStorage.getItem('userId')); // Convierte string a número
+
+fetch('/mensaje/', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ 
+    id_usuario,       // ahora es un número
+    mensaje: titulo,  // el texto del título o mensaje
+  }),
+});
+
   .then(res => {
     if (!res.ok) throw new Error('Error al crear el nuevo chat');
     return res.json();
