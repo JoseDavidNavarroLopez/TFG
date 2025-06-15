@@ -59,7 +59,7 @@ function sendMessage() {
 //---------------------------------------------------------------------------------------------------------------------------------
 function appendMessage(text, sender, isTyping = false) {
     const msg = document.createElement('div');
-    msg.className = `message ${sender};`
+    msg.className = `message ${sender}`;
   
     // Convertir Markdown a HTML utilizando Showdown
     const converter = new showdown.Converter();
