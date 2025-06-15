@@ -236,9 +236,35 @@ async function obtenerChatPorId(req, res) {
   }
 }
 
+async function guardarNuevaConversacion(userId) {
+  try {
+    const nuevaConversacion = await prisma.conversaciones.create({
+      data: {
+        id_usuario: userId,
+        estado: "en curso",
+      },
+    });
+
+    // Opcional: guardar log de actividad
+    await prisma.logs_actividad.create({
+      data: {
+        id_usuario: userId,
+        accion: "Creó nueva conversación manualmente",
+      },
+    });
+
+    return { exito: true, id_conversacion: nuevaConversacion.id_conversacion };
+  } catch (error) {
+    console.error("Error al guardar nueva conversación:", error);
+    return { exito: false, error: "No se pudo guardar la conversación" };
+  }
+}
+
+
 
 module.exports = {
   procesarMensaje,
   obtenerHistorialChats,
   obtenerChatPorId,
+  guardarNuevaConversacion,
 };
