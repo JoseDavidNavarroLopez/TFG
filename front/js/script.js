@@ -295,7 +295,8 @@ function toggleChatHistory() {
 function clearChat() {
   const chatContainer = document.getElementById("chat");
   if (chatContainer) {
-    chatContainer.innerHTML = ""; // Elimina todos los mensajes del contenedor
+    chatContainer.innerHTML = "";
+      chatContainer.innerHTML = "¡Hola! Soy AteneAI, ¿en qué puedo ayudarte hoy?";
   } else {
     console.warn("Contenedor de chat no encontrado: #chat-container");
   }
@@ -381,43 +382,37 @@ function cerrarInputNuevoChat() {
 
 function crearNuevoChat() {
   const titulo = document.getElementById('tituloChat').value.trim();
-  const id_usuario = Number(sessionStorage.getItem('userId')); 
+  const email = sessionStorage.getItem('userEmail');
+  const id_usuario = sessionStorage.getItem('userId'); // Asegúrate de tener este valor
 
   if (!titulo) {
     alert('Por favor, ingresa un título para el chat.');
     return;
   }
 
-  if (!id_usuario) {
-    alert('Debes iniciar sesión para crear un chat.');
-    return;
-  }
-clearChat()
-
-
-fetch('/mensaje/', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ 
-    id_usuario,       // ahora es un número
-    mensaje: titulo,  // el texto del título o mensaje
-  }),
-})
-
-  .then(res => {
-    if (!res.ok) throw new Error('Error al crear el nuevo chat');
-    return res.json();
+  fetch('/mensaje/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id_usuario, mensaje: titulo }), // Aquí el título se usa como primer mensaje
   })
-  .then(data => {
-    alert('Chat creado correctamente');
-    cerrarInputNuevoChat();
-    loadChatHistory(); // Actualiza la lista de chats
-  })
-  .catch(err => {
-    console.error('Error al crear nuevo chat:', err);
-    alert('Error al crear el chat');
-  });
+    .then(res => {
+      if (!res.ok) throw new Error('Error al crear el nuevo chat');
+      return res.json();
+    })
+    .then(data => {
+      alert('Chat creado correctamente');
+      cerrarInputNuevoChat();
+      clearChat(); // Limpiar visualmente el chat
+
+      // 👇 Agregar mensaje predeterminado
+      appendMessage("¡Hola! Soy AteneAI, ¿en qué puedo ayudarte hoy?", "bot");
+
+      loadChatHistory(); // Refresca historial de conversaciones
+    })
+    .catch(err => {
+      console.error('Error al crear nuevo chat:', err);
+      alert('Error al crear el chat');
+    });
 }
-
 
 
