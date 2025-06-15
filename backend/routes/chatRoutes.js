@@ -4,6 +4,7 @@ const {
   procesarMensaje,
   obtenerHistorialChats, 
   obtenerChatPorId,
+  guardarNuevaConversacion,
 } = require("../controllers/chatController");
 
 router.post("/", procesarMensaje);
