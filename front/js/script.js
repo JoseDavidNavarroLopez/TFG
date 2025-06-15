@@ -297,7 +297,7 @@ function clearChat() {
   const mensajeBot = document.getElementById("mensaje-bot")
   if (chatContainer) {
     chatContainer.innerHTML = "";
-      chatContainer.innerHTML = "¡Hola! Soy AteneAI, ¿en qué puedo ayudarte hoy?";
+      mensajeBot.innerHTML = "¡Hola! Soy AteneAI, ¿en qué puedo ayudarte hoy?";
   } else {
     console.warn("Contenedor de chat no encontrado: #chat-container");
   }
