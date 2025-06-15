@@ -376,12 +376,12 @@ function mostrarInputNuevoChat() {
 
 function cerrarInputNuevoChat() {
   document.getElementById('nuevoChatModal').style.display = 'none';
-  document.getElementById('tituloChat').value = ''; // Limpia input
+  document.getElementById('tituloChat').value = '';
 }
 
 function crearNuevoChat() {
   const titulo = document.getElementById('tituloChat').value.trim();
-  const id_usuario = sessionStorage.getItem('userId'); // Usar el id_usuario almacenado
+  const id_usuario = Number(sessionStorage.getItem('userId')); 
 
   if (!titulo) {
     alert('Por favor, ingresa un título para el chat.');
@@ -393,7 +393,7 @@ function crearNuevoChat() {
     return;
   }
 clearChat()
- const id_usuario = Number(sessionStorage.getItem('userId')); // Convierte string a número
+
 
 fetch('/mensaje/', {
   method: 'POST',
