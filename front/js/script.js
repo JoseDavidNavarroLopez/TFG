@@ -386,7 +386,7 @@ async function guardarConversacionEnBackend(mensajes) {
   };
 
   try {
-    const res = await fetch('/api/chat/convers', {
+    const res = await fetch('/api/chat/conver', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
