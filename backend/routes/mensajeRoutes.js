@@ -7,7 +7,7 @@ const { crearConversacion, guardarMensaje } = require("../controllers/guardarMen
 router.post("/conversacion", crearConversacion);
 
 // Ruta para guardar mensaje en conversación existente
-router.post("/mensaje", guardarMensaje);
+router.post("/mensajes", guardarMensaje);
 
 module.exports = router;
 
