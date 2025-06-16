@@ -381,7 +381,7 @@ header {
 }
 
 #chatList li:hover{
-background-color:#c4fefe;
+background-color:#c4fefe !important;
 
 }
 
