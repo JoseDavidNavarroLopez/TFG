@@ -421,33 +421,76 @@ function crearNuevoChat() {
     alert('Debes iniciar sesión para crear un chat.');
     return;
   }
-clearChat()
 
-
-fetch('/mensaje/', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ 
-    id_usuario,       
-    mensaje: titulo,  
-  }),
-})
-
+  fetch('/conversacion', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id_usuario, titulo }),
+  })
   .then(res => {
-    if (!res.ok) throw new Error('Error al crear el nuevo chat');
+    if (!res.ok) throw new Error('Error al crear la conversación');
     return res.json();
   })
   .then(data => {
-  sessionStorage.setItem('idConversacion', data.id_conversacion); // GUARDAMOS ID DE CONVERSACIÓN
-  alert('Chat creado correctamente');
-  cerrarInputNuevoChat();
-  loadChatHistory(); 
-})
+    sessionStorage.setItem('idConversacion', data.id_conversacion);
+    alert('Chat creado correctamente');
+    cerrarInputNuevoChat();
+    loadChatHistory();
+    clearChat();
+  })
   .catch(err => {
-    console.error('Error al crear nuevo chat:', err);
+    console.error('Error al crear la conversación:', err);
     alert('Error al crear el chat');
   });
 }
+
+function sendMessageBD() {
+  const text = userInput.value.trim();
+  if (!text) return;
+
+  const id_conversacion = sessionStorage.getItem('idConversacion');
+  const id_usuario = Number(sessionStorage.getItem('userId'));
+  if (!id_conversacion || !id_usuario) {
+    alert('No hay conversación activa o usuario no identificado.');
+    return;
+  }
+
+  // Ocultar respuestas rápidas
+  quickReplies.style.display = "none";
+
+  appendMessage(text, 'user');
+  userInput.value = '';
+
+  appendMessage("Escribiendo...", 'bot', true);
+
+  fetch('/mensaje', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id_usuario,
+      id_conversacion,
+      mensaje: text
+    }),
+  })
+  .then(res => res.json())
+  .then(data => {
+    removeTyping();
+    if (data.mensajeAsistente) {
+      appendMessage(data.mensajeAsistente, 'bot');
+    } else if (data.error) {
+      appendMessage(`Error: ${data.error}`, 'bot');
+    } else {
+      appendMessage("No hay respuesta del bot.", 'bot');
+    }
+  })
+  .catch(err => {
+    removeTyping();
+    appendMessage("Hubo un error al conectar con la IA 😢", 'bot');
+    console.error(err);
+  });
+}
+
+
 loadChatHistory(); 
 
 const chatContainer = document.getElementById('chat');
