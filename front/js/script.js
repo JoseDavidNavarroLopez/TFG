@@ -283,8 +283,11 @@ document.getElementById('statusMessage').textContent = modoMatematico ? 'Modo Ma
 //---------------------------------------------------------------------------------------------------------------------------------
 
 function toggleChatHistory() {
-   const panel = document.getElementById('chatHistoryPanel');
+  const panel = document.getElementById('chatHistoryPanel');
+  const mainContent = document.getElementById('mainContent');
+
   panel.classList.toggle('open');
+  mainContent.classList.toggle('shifted');
 }
 
 function clearChat() {
