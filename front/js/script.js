@@ -422,7 +422,7 @@ function crearNuevoChat() {
     return;
   }
 
-  fetch('/conversacion', {
+  fetch('mensajes/conversacion', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id_usuario, titulo }),
@@ -463,7 +463,7 @@ function sendMessageBD() {
 
   appendMessage("Escribiendo...", 'bot', true);
 
-  fetch('/mensaje', {
+  fetch('mensajes/mensaje', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
