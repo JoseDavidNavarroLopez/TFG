@@ -73,7 +73,9 @@ const login = async (req, res) => {
 
   try {
     // Verificar si el usuario existe
-    const existingUser = await prisma.usuarios.findUnique({ where: { id_usuario } });
+    const existingUser = await prisma.usuarios.findUnique({ 
+      where: { id_usuario: parseInt(id) }
+    });
 
     if (!existingUser) {
       return res.status(404).json({ error: 'Usuario no encontrado.' });
@@ -81,20 +83,19 @@ const login = async (req, res) => {
 
     // Preparar los datos a actualizar
     const dataToUpdate = {};
-    if (name) dataToUpdate.name = name;
+    if (name) dataToUpdate.nombre = name; // usa el campo correcto
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       dataToUpdate.password = hashedPassword;
     }
 
-    // Si no hay nada que actualizar
     if (Object.keys(dataToUpdate).length === 0) {
       return res.status(400).json({ error: 'No se proporcionaron datos para actualizar.' });
     }
 
     // Actualizar usuario
-    await prisma.usuario.update({
-      where: { id },
+    await prisma.usuarios.update({
+      where: { id_usuario: parseInt(id) },
       data: dataToUpdate,
     });
 
