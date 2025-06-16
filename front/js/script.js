@@ -375,7 +375,7 @@ function loadChatById(chatId) {
 //---------------------------------GUARDAR MENSAJES-----------------------------------------------------------------------
 
 function guardarMensajeEnBD(mensaje, emisor, id_conversacion) {
-  fetch('/mensaje/guardar', {
+  fetch('/mensaje/mensajes', {  // <-- aquí estaba '/mensaje/guardar', corregido
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -396,6 +396,7 @@ function guardarMensajeEnBD(mensaje, emisor, id_conversacion) {
       console.error('Error al guardar mensaje:', err);
     });
 }
+
 
 
 //---------------------------------GUARDAR CONVERSACIÓN-----------------------------------------------------------------------
