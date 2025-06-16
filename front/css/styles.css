@@ -367,7 +367,7 @@ header {
   display: flex;
   flex-direction: column;
 }
-.chat-sidebar li{
+.chat-history ul li{
   list-style: none;
   padding:0 px;
   width:80%;
