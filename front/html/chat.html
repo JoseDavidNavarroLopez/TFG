@@ -6,50 +6,50 @@
   <title>AteneAI - Chatbot</title>
   <link rel="stylesheet" href="../css/styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
-
 </head>
 <body>
 
-  <header>
-<div id="chatHistoryPanel" class="chat-sidebar">
-  <h3>Historial de Chats</h3>
-  <ul id="chatList" class="chat-history"></ul>
-</div>
-
-
-
-
-
-    <div class="header-left">
-<button class="chat-btn" onclick="toggleChatHistory()">☰</button>
-
-      <span class="title">AteneAI</span>
-    </div>
-    <button onclick="mostrarInputNuevoChat()" style="background-color: #2e2e58; color: white; border: none; padding: 6px 10px; border-radius: 20px;  cursor: pointer; margin: 15px 10px; font-size: 0.85rem;">➕ Nuevo Chat</button>
-
-<!-- Modal para escribir título del nuevo chat -->
-<div id="nuevoChatModal" style="display:none; position:fixed; top:30%; left:50%; transform:translateX(-50%); background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2); z-index:999;">
-  <label for="tituloChat">Pon título del chat:</label><br>
-  <input type="text" id="tituloChat" placeholder="Titulo de la conversación" style="margin: 10px 0; padding:5px; width:100%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
-  <div style="text-align: right;">
-    <button onclick="crearNuevoChat()">Aceptar</button>
-    <button onclick="cerrarInputNuevoChat()">Cancelar</button>
+  <!-- Sidebar del historial de chats -->
+  <div id="chatHistoryPanel" class="chat-sidebar">
+    <h3>Historial de Chats</h3>
+    <ul id="chatList" class="chat-history"></ul>
   </div>
-</div>
 
-    <div class="menu">
-      <button id="modoMatematicoBtn"class="toggle-mode" style="background:none;border:none;" onclick="toggleModoMatematico()">🧮</button>
-      <button class="toggle-mode" style="background:none;border:none;" onclick="toggleDarkMode()">🌓</button>
-      <button class="menu-btn" onclick="showLogin()"><img src="../recursos/peerfil.png" style="height:30px;width:30px;margin-top:10px"></button></button>
-    </div>
-  </header>
-<div id="statusMessage" style="text-align:center;color:rgb(255, 123, 0);font-weight:bold;"></div>
+  <!-- Contenedor principal que se desplaza -->
+  <div id="mainContent" class="main-content">
 
+    <header>
+      <div class="header-left">
+        <button class="chat-btn" onclick="toggleChatHistory()">☰</button>
+        <span class="title">AteneAI</span>
+      </div>
+      <button onclick="mostrarInputNuevoChat()" style="background-color: #2e2e58; color: white; border: none; padding: 6px 10px; border-radius: 20px;  cursor: pointer; margin: 15px 10px; font-size: 0.85rem;">➕ Nuevo Chat</button>
+
+      <!-- Modal para escribir título del nuevo chat -->
+      <div id="nuevoChatModal" style="display:none; position:fixed; top:30%; left:50%; transform:translateX(-50%); background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2); z-index:999;">
+        <label for="tituloChat">Pon título del chat:</label><br>
+        <input type="text" id="tituloChat" placeholder="Titulo de la conversación" style="margin: 10px 0; padding:5px; width:100%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
+        <div style="text-align: right;">
+          <button onclick="crearNuevoChat()">Aceptar</button>
+          <button onclick="cerrarInputNuevoChat()">Cancelar</button>
+        </div>
+      </div>
+
+      <div class="menu">
+        <button id="modoMatematicoBtn"class="toggle-mode" style="background:none;border:none;" onclick="toggleModoMatematico()">🧮</button>
+        <button class="toggle-mode" style="background:none;border:none;" onclick="toggleDarkMode()">🌓</button>
+        <button class="menu-btn" onclick="showLogin()"><img src="../recursos/peerfil.png" style="height:30px;width:30px;margin-top:10px"></button>
+      </div>
+    </header>
+
+    <div id="statusMessage" style="text-align:center;color:rgb(255, 123, 0);font-weight:bold;"></div>
+<div class="main-content">
   <div class="chat-container" id="chat">
-    <div class="message bot" id="mensaje-bot" style="padding: 15px 15px;">¡Hola! Soy AteneAI, ¿en qué puedo ayudarte hoy?</div>
+    <div class="message bot" id="mensaje-bot" style="padding: 15px 15px;">
+      ¡Hola! Soy AteneAI, ¿en qué puedo ayudarte hoy?
+    </div>
   </div>
 
-  <!-- Mensajes de respuestas rápidas -->
   <div class="quick-replies" id="quickReplies">
     <button class="quick-reply" onclick="sendMessageQuick('¿Qué puedes hacer?')">¿Qué puedes hacer?</button>
     <button class="quick-reply" onclick="sendMessageQuick('Hola')">Hola</button>
@@ -60,45 +60,37 @@
     <input type="text" id="userInput" placeholder="Escribe tu mensaje..." />
     <button onclick="sendMessage()">Enviar</button>
   </div>
+</div>
 
-  <!-- Acerca de AteneAI -->
-  <div id="about" class="about-popup">
-    <div class="about-content">
-      <h3>Acerca de AteneAI</h3>
-      <p>AteneAI es un chatbot inteligente creado para ayudarte en lo que necesites. Puedes preguntarle sobre cualquier tema, ¡y siempre estará dispuesta a ayudarte!</p>
-      <button onclick="closeAbout()">Cerrar</button>
+
+    <!--Inicio de sesion y creacion de cuenta-->
+    <div id="loginModal" class="login-modal">
+      <div class="login-content">
+        <h3 style="text-align: center;">Iniciar Sesión</h3>
+        <input type="email" id="loginEmail" placeholder="Correo electrónico" />
+        <input type="password" id="loginPassword" placeholder="Contraseña" />
+        <p style="text-align:center;">
+          ¿No tienes cuenta?
+          <a href="#" onclick="showRegister()">Crear una cuenta</a>
+        </p>
+        <button onclick="handleLogin()">Entrar</button>
+        <button class="close-btn" onclick="closeLogin()">Cerrar</button>
+      </div>
     </div>
-  </div>
 
-
-
-  <!--Inicio de sesion y creacion de cuenta-->
-  <div id="loginModal" class="login-modal">
-    <div class="login-content">
-      <h3 style="text-align: center;">Iniciar Sesión</h3>
-      <input type="email" id="loginEmail" placeholder="Correo electrónico" />
-      <input type="password" id="loginPassword" placeholder="Contraseña" />
-      <p style="text-align:center;">
-        ¿No tienes cuenta?
-        <a href="#" onclick="showRegister()">Crear una cuenta</a>
-      </p>
-      
-      <button onclick="handleLogin()">Entrar</button>
-      <button class="close-btn" onclick="closeLogin()">Cerrar</button>
+    <div id="registerModal" class="login-modal">
+      <div class="login-content">
+        <h3 style="text-align: center;">Crear Cuenta</h3>
+        <input type="text" id="registerName" placeholder="Tu nombre" />
+        <input type="email" id="registerEmail" placeholder="Correo electrónico" />
+        <input type="password" id="registerPassword" placeholder="Contraseña" />
+        <button onclick="handleRegister()">Registrarse</button>
+        <button onclick="closeRegister()">Cancelar</button>
+      </div>
     </div>
-  </div>
-  <div id="registerModal" class="login-modal">
-    <div class="login-content">
-      <h3 style="text-align: center;">Crear Cuenta</h3>
-      <input type="text" id="registerName" placeholder="Tu nombre" />
-      <input type="email" id="registerEmail" placeholder="Correo electrónico" />
-      <input type="password" id="registerPassword" placeholder="Contraseña" />
-      <button onclick="handleRegister()">Registrarse</button>
-      <button onclick="closeRegister()">Cancelar</button>
-    </div>
-    
-  </div>
-  
+
+  </div> <!-- cierre mainContent -->
+
   <script src="../js/script.js"></script>
 </body>
 </html>
