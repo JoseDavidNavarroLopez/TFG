@@ -68,7 +68,22 @@
       <button onclick="handleRegister()">Registrarse</button>
       <button onclick="closeRegister()">Cancelar</button>
     </div>
+    <!-- modal ajustes -->
+<div id="settingsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:10000;">
+  <div style="background:var(--bg-color); color:var(--text-color); max-width:400px; margin:10% auto; padding:20px; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.3); position:relative;">
+    <h2 style="text-align:center;">Ajustes del usuario</h2>
+    <label for="settingsName">Nombre:</label>
+    <input type="text" id="settingsName" style="width:100%; padding:8px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc;">
     
+    <label for="settingsPassword">Nueva contraseña:</label>
+    <input type="password" id="settingsPassword" style="width:100%; padding:8px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc;">
+
+    <div style="display:flex; justify-content:space-between; margin-top:15px;">
+      <button onclick="saveSettings()">Guardar</button>
+      <button onclick="closeSettings()">Cancelar</button>
+    </div>
+  </div>
+</div>
   </div>
 
   <script src="../js/script.js"></script>
