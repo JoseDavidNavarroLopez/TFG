@@ -73,7 +73,7 @@ const login = async (req, res) => {
 
   try {
     // Verificar si el usuario existe
-    const existingUser = await prisma.usuario.findUnique({ where: { id } });
+    const existingUser = await prisma.usuarios.findUnique({ where: { id } });
 
     if (!existingUser) {
       return res.status(404).json({ error: 'Usuario no encontrado.' });
