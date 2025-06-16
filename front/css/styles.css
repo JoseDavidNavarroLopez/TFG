@@ -330,6 +330,9 @@ header {
   flex-direction: column;
   gap: 10px;
 }
+.chat-history ul{
+list-style-type:none
+}
 
 .chat-history-item {
   background-color: var(--input-bg);
@@ -366,7 +369,7 @@ header {
   display: flex;
   flex-direction: column;
 }
-.chat-sidebar.li{
+.chat-sidebar li{
   display:none;
 }
 .chat-sidebar.open {
