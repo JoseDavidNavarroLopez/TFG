@@ -1,43 +1,55 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const responderAsistente = (mensaje) => {
-  return `Has accedido al chat : "${mensaje}"`;
+// Crear conversación nueva
+const crearConversacion = async (req, res) => {
+  try {
+    const { id_usuario, titulo } = req.body;
+    const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
+
+    if (!titulo || !id_usuario) {
+      return res.status(400).json({ error: "Faltan datos obligatorios" });
+    }
+
+    const conversacion = await prisma.conversaciones.create({
+      data: {
+        id_usuario: idUsuarioInt,
+        titulo,
+        estado: "en curso",
+      },
+    });
+
+    res.json({
+      id_conversacion: conversacion.id_conversacion,
+      titulo: conversacion.titulo,
+    });
+  } catch (error) {
+    console.error("Error al crear conversación:", error);
+    res.status(500).json({ error: "Error del servidor" });
+  }
 };
 
+// Guardar mensaje en conversación existente
 const guardarMensaje = async (req, res) => {
   try {
     const { id_usuario, mensaje, id_conversacion } = req.body;
     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
 
-    // Validación básica
-    if (!mensaje || !id_usuario) {
+    if (!mensaje || !id_usuario || !id_conversacion) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
 
-    let conversacion;
+    // Verificar que exista la conversación
+    const conversacion = await prisma.conversaciones.findUnique({
+      where: { id_conversacion },
+      select: {
+        id_conversacion: true,
+        titulo: true,
+      },
+    });
 
-    if (!id_conversacion) {
-      conversacion = await prisma.conversaciones.create({
-        data: {
-          id_usuario: idUsuarioInt,
-          titulo: mensaje.substring(0, 50),
-          estado: "en curso",
-        },
-      });
-    } else {
-      conversacion = await prisma.conversaciones.findUnique({
-        where: { id_conversacion },
-        select: {
-          id_conversacion: true,
-          titulo: true,
-          // si necesitas otros campos aquí, agrégalos
-        },
-      });
-
-      if (!conversacion) {
-        return res.status(404).json({ error: "Conversación no encontrada" });
-      }
+    if (!conversacion) {
+      return res.status(404).json({ error: "Conversación no encontrada" });
     }
 
     const mensajeUsuario = await prisma.mensajes.create({
@@ -48,6 +60,7 @@ const guardarMensaje = async (req, res) => {
       },
     });
 
+    // Suponiendo que responderAsistente es síncrona o await
     const respuesta = responderAsistente(mensaje);
 
     const mensajeAsistente = await prisma.mensajes.create({
@@ -74,4 +87,4 @@ const guardarMensaje = async (req, res) => {
   }
 };
 
-module.exports = { guardarMensaje };
+module.exports = { crearConversacion, guardarMensaje };
