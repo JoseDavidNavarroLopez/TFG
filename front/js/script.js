@@ -7,7 +7,7 @@ const aboutPopup = document.getElementById('about');
 const API_KEY = "sk-d9818b65ca4b485e9d8355d8cad3a7bc";
 const API_URL = "https://api.deepseek.com/v1/chat/completions";
 
-let modoMatematico = false; // Estado inicial del modo matemático
+
 
 //---------------------------------------------------------------------------------------------------------------------------------
 function sendMessage() {
@@ -34,7 +34,7 @@ function sendMessage() {
           { role: "system", content: "Eres una asistente llamada AteneAI, amigable y útil." },
           { role: "user", content: text }
         ],
-        temperature: modoMatematico ? 0.3 : 0.7
+        temperature: 0.7
       })
     })
       .then(res => res.json())
@@ -282,21 +282,6 @@ function openSettings() {
 }
 
 
-
-//---------------------------------------------------------------------------------------------------------------------------------
-function toggleModoMatematico() {
-  modoMatematico = !modoMatematico;
-document.getElementById('statusMessage').textContent = modoMatematico ? 'Modo Matemático ACTIVADO' : '';
-
-  const btn = document.getElementById('modoMatematicoBtn');
-  if (modoMatematico) {
-    btn.classList.add('active');
-  } else {
-    btn.classList.remove('active');
-  }
-
-  alert(`Modo matemático ${modoMatematico ? 'activado (temperatura 0.3)' : 'desactivado (temperatura 0.7)'}`);
-}
 
 //---------------------------------------------------------------------------------------------------------------------------------
 
