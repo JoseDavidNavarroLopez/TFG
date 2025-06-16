@@ -11,10 +11,9 @@
 <body>
 
   <header>
-<div id="chatHistoryPanel" class="chat-sidebar">
+<div id="chatHistoryPanel" style="display:none; padding: 20px;">
   <h3>Historial de Chats</h3>
-  <div id="chatList" class="chat-history"></div>
-<!-- <ul id="chatList" style="list-style: none; padding: 0;"></ul> -->
+  <ul id="chatList" style="list-style: none; padding: 0;"></ul>
 </div>
 
 
@@ -22,7 +21,7 @@
 
 
     <div class="header-left">
-<button class="chat-btn" onclick="toggleChatSidebar()">☰</button>
+<button class="chat-btn" onclick="toggleChatHistory()">☰</button>
 
       <span class="title">AteneAI</span>
     </div>
