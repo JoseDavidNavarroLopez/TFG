@@ -367,11 +367,15 @@ header {
   display: flex;
   flex-direction: column;
 }
-.chat-history ul li{
+/*.chat-history ul li{
   list-style: none;
   padding:0 px;
   width:80%;
+}*/
+#chatList li {
+    list-style: none;
 }
+
 .chat-sidebar.open {
   left: 0;
 }
