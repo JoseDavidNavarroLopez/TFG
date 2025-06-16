@@ -514,7 +514,7 @@ function saveSettings() {
     return;
   }
 
-  fetch('/usuarios/update', {
+  fetch('/usuarios/settings', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
