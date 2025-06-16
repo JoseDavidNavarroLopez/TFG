@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const guardarMensaje = async (req, res) => {
   try {
-    const { id_usuario, mensaje, id_conversacion, } = req.body;
+    const { id_usuario, mensaje, id_conversacion, titulo} = req.body;
     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
 
     // Validación básica
@@ -17,7 +17,7 @@ const guardarMensaje = async (req, res) => {
       conversacion = await prisma.conversaciones.create({
         data: {
           id_usuario,
-          titulo: mensaje.substring(0, 50),
+          titulo: titulo?.trim() || mensaje.substring(0, 50),
           estado: "en curso",
         },
       });
