@@ -11,4 +11,7 @@ router.post('/register', userController.createUser);
 // Ruta para iniciar sesión
 router.post('/login', userController.login);
 
+//Ruta para actualizar nombre y contraseña
+router.post('/settings', updateUsuarios);
+
 module.exports = router;
