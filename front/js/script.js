@@ -423,11 +423,11 @@ clearChat()
 fetch('/mensaje/', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ 
-    id_usuario,       
-    titulo
-    
-  }),
+ body: JSON.stringify({ 
+  id_usuario,
+  titulo,
+  mensaje: "Inicio de conversación"  // mensaje temporal o simbólico
+})
 })
 
   .then(res => {
