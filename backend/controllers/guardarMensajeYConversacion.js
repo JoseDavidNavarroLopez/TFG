@@ -1,55 +1,38 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// Crear conversación nueva
-const crearConversacion = async (req, res) => {
-  try {
-    const { id_usuario, titulo } = req.body;
-    const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
-
-    if (!titulo || !id_usuario) {
-      return res.status(400).json({ error: "Faltan datos obligatorios" });
-    }
-
-    const conversacion = await prisma.conversaciones.create({
-      data: {
-        id_usuario: idUsuarioInt,
-        titulo,
-        estado: "en curso",
-      },
-    });
-
-    res.json({
-      id_conversacion: conversacion.id_conversacion,
-      titulo: conversacion.titulo,
-    });
-  } catch (error) {
-    console.error("Error al crear conversación:", error);
-    res.status(500).json({ error: "Error del servidor" });
-  }
+const responderAsistente = (mensaje) => {
+  return `Respuesta automática a: "${mensaje}"`;
 };
 
-// Guardar mensaje en conversación existente
 const guardarMensaje = async (req, res) => {
   try {
     const { id_usuario, mensaje, id_conversacion } = req.body;
-    const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
+     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
 
-    if (!mensaje || !id_usuario || !id_conversacion) {
+    // Validación básica
+    if (!mensaje || !id_usuario) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
 
-    // Verificar que exista la conversación
-    const conversacion = await prisma.conversaciones.findUnique({
-      where: { id_conversacion },
-      select: {
-        id_conversacion: true,
-        titulo: true,
-      },
-    });
+    let conversacion;
 
-    if (!conversacion) {
-      return res.status(404).json({ error: "Conversación no encontrada" });
+    if (!id_conversacion) {
+      conversacion = await prisma.conversaciones.create({
+        data: {
+          id_usuario,
+          titulo: mensaje.substring(0, 50),
+          estado: "en curso",
+        },
+      });
+    } else {
+      conversacion = await prisma.conversaciones.findUnique({
+        where: { id_conversacion },
+      });
+
+      if (!conversacion) {
+        return res.status(404).json({ error: "Conversación no encontrada" });
+      }
     }
 
     const mensajeUsuario = await prisma.mensajes.create({
@@ -60,7 +43,6 @@ const guardarMensaje = async (req, res) => {
       },
     });
 
-    // Suponiendo que responderAsistente es síncrona o await
     const respuesta = responderAsistente(mensaje);
 
     const mensajeAsistente = await prisma.mensajes.create({
@@ -76,15 +58,15 @@ const guardarMensaje = async (req, res) => {
       data: { fecha_ultimo_mensaje: new Date() },
     });
 
-    res.json({
-      id_conversacion: conversacion.id_conversacion,
-      titulo: conversacion.titulo,
-      mensajes: [mensajeUsuario, mensajeAsistente],
-    });
+res.json({
+  id_conversacion: conversacion.id_conversacion,
+  titulo: conversacion.titulo, // agrega esto
+  mensajes: [mensajeUsuario, mensajeAsistente],
+});
   } catch (error) {
     console.error("Error al guardar mensaje:", error);
     res.status(500).json({ error: "Error del servidor" });
   }
 };
 
-module.exports = { crearConversacion, guardarMensaje };
+module.exports = { guardarMensaje };
