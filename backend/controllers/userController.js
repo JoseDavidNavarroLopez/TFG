@@ -65,7 +65,7 @@ exports.login = async (req, res) => {
 
 //----------------ajustes----------------------
 
-async function updateUsuarios (req, res) => {
+async function updateUsuarios (req, res) {
   const { id, name, password } = req.body;
 
   if (!id) {
