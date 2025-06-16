@@ -344,7 +344,7 @@ header {
 }
 
 .chat-history-item:hover {
-  background-color: var(--button-hover-bg);
+  background-color: #c4fefe;
   color: white;
   box-shadow: 0 4px 10px var(--shadow-color);
 }
