@@ -439,3 +439,46 @@ fetch('/mensaje/', {
   });
 }
 loadChatHistory(); 
+
+const mensajesYaGuardados = new Set(); 
+
+const observer = new MutationObserver(mutations => {
+  for (const mutation of mutations) {
+    for (const node of mutation.addedNodes) {
+      if (node.nodeType === 1 && node.classList.contains('message')) {
+        const texto = node.textContent.trim();
+
+        if (texto === "Escribiendo…" || mensajesYaGuardados.has(texto)) continue;
+
+        const emisor = node.classList.contains('user') ? 'usuario' : 'asistente';
+        const id_usuario = Number(sessionStorage.getItem('userId'));
+        const id_conversacion = window.currentConversationId || null;
+
+        if (!id_usuario) return;
+
+        mensajesYaGuardados.add(texto);
+
+        fetch('/mensaje/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id_usuario,
+            mensaje: texto,
+            id_conversacion
+          }),
+        })
+        .then(res => res.json())
+        .then(data => {
+         
+          if (!window.currentConversationId) {
+            window.currentConversationId = data.id_conversacion;
+          }
+        })
+        .catch(err => console.error('Error al guardar mensaje:', err));
+      }
+    }
+  }
+});
+
+observer.observe(document.getElementById('chat'), { childList: true });
+
