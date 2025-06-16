@@ -129,12 +129,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function showLogin() {
   const user = sessionStorage.getItem('userEmail');
+  const modal = document.getElementById('loginModal');
+
   if (user) {
     showUserMenu();
   } else {
-    loginModal.style.display = 'block';
+    // Alterna la visibilidad del modal
+    modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
   }
 }
+
+// Cierra el modal al hacer clic fuera
+window.addEventListener('click', function(e) {
+  const modal = document.getElementById('loginModal');
+  const content = modal.querySelector('.login-content');
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
 
 function closeLogin() {
   loginModal.style.display = 'none';
