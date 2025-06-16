@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const responderAsistente = (mensaje) => {
-  return `Respuesta automática a: "${mensaje}"`;
+  return `Has accedido al chat : "${mensaje}"`;
 };
 
 const guardarMensaje = async (req, res) => {
