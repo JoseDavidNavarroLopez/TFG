@@ -525,6 +525,6 @@ const observer = new MutationObserver((mutationsList) => {
   }
 });
 
-observer.observe(chatContainer, { childList: true, subtree: true });
+observer.observe(chatMensaje, { childList: true, subtree: true });
 
 
