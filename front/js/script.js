@@ -129,22 +129,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function toggleLoginModal() {
   const user = sessionStorage.getItem('userEmail');
-  const modal = loginModal;
+  const loginModal = document.getElementById('loginModal');
+  const userMenu = document.getElementById('userMenu');
 
   if (user) {
-    showUserMenu();
+    // Si el menú ya existe, alternar su visibilidad
+    if (userMenu) {
+      userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
+    } else {
+      showUserMenu(); // Lo crea y lo muestra
+    }
   } else {
-    modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+    loginModal.style.display = loginModal.style.display === 'block' ? 'none' : 'block';
   }
 }
 
+// Cerrar modal al hacer clic fuera
 window.addEventListener('click', function(e) {
-  const modal = document.getElementById('loginModal');
-  const content = modal.querySelector('.login-content');
-  if (e.target === modal) {
-    modal.style.display = 'none';
+  const loginModal = document.getElementById('loginModal');
+  if (e.target === loginModal) {
+    loginModal.style.display = 'none';
   }
 });
+
 
 
 function closeLogin() {
