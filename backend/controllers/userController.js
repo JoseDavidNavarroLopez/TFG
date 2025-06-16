@@ -63,7 +63,50 @@ exports.login = async (req, res) => {
   }
 };
 
+//----------------ajustes----------------------
 
+async (req, res) => {
+  const { id, name, password } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: 'El ID es obligatorio.' });
+  }
+
+  try {
+    // Verificar si el usuario existe
+    const existingUser = await prisma.usuario.findUnique({ where: { id } });
+
+    if (!existingUser) {
+      return res.status(404).json({ error: 'Usuario no encontrado.' });
+    }
+
+    // Preparar los datos a actualizar
+    const dataToUpdate = {};
+    if (name) dataToUpdate.name = name;
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      dataToUpdate.password = hashedPassword;
+    }
+
+    // Si no hay nada que actualizar
+    if (Object.keys(dataToUpdate).length === 0) {
+      return res.status(400).json({ error: 'No se proporcionaron datos para actualizar.' });
+    }
+
+    // Actualizar usuario
+    await prisma.usuario.update({
+      where: { id },
+      data: dataToUpdate,
+    });
+
+    res.json({ success: true, message: 'Usuario actualizado correctamente.' });
+  } catch (error) {
+    console.error('Error al actualizar usuario:', error);
+    res.status(500).json({ error: 'Error del servidor.' });
+  }
+});
+
+module.exports = router;
 
 
 
