@@ -10,7 +10,7 @@ const API_URL = "https://api.deepseek.com/v1/chat/completions";
 let modoMatematico = false; // Estado inicial del modo matemático
 
 //---------------------------------------------------------------------------------------------------------------------------------
-function sendMessage() {Add commentMore actions
+function sendMessage() {
     const text = userInput.value.trim();
     if (!text) return;
   
