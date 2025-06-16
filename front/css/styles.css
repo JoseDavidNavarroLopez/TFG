@@ -330,9 +330,7 @@ header {
   flex-direction: column;
   gap: 10px;
 }
-.chat-history li{
-list-style:none
-}
+
 
 .chat-history-item {
   background-color: var(--input-bg);
