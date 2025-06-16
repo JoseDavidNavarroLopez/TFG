@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-function showLogin() {
+function toggleLoginModal() {
   const user = sessionStorage.getItem('userEmail');
   const modal = document.getElementById('loginModal');
 
