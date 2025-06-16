@@ -294,13 +294,6 @@ header {
   transform: scale(1.05);
 }
 
-/* Estilo para cuando el botón está activo */
-#modoMatematicoBtn.active {
-  background-color: #ffd70033;
-  border-radius: 10px;
-  box-shadow: 0 0 5px 2px #ffd700aa;
-}
-
 
 
 /*Estilo titulo pag principal*/
