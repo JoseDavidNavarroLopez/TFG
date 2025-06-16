@@ -137,11 +137,13 @@ header {
 }
 
 .input-area {
-  display: flex;
-  padding: 10px;
-  padding-inline: 500px;
-  border-top: 1px solid #ccc;
-  background-color:var(--secundary-colors) ;
+    display: flex;
+    padding: 10px;
+    padding-inline: 100%;
+    border-top: 1px solid #ccc;
+    background-color: var(--secundary-colors);
+    width: 30%;
+    align-self: anchor-center;
 }
 
 .input-area input {
