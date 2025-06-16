@@ -489,3 +489,54 @@ const observer = new MutationObserver(mutations => {
 
 observer.observe(document.getElementById('chat'), { childList: true });
 
+
+//-----------------------Ajustes--------------------------------
+function openSettings() {
+  const currentName = sessionStorage.getItem('userName');
+  document.getElementById('settingsName').value = currentName || '';
+  document.getElementById('settingsPassword').value = '';
+  document.getElementById('settingsModal').style.display = 'block';
+  closeUserMenu();
+}
+
+function closeSettings() {
+  document.getElementById('settingsModal').style.display = 'none';
+}
+
+function saveSettings() {
+  const newName = document.getElementById('settingsName').value.trim();
+  const newPassword = document.getElementById('settingsPassword').value.trim();
+  const userId = sessionStorage.getItem('userId');
+
+  if (!newName && !newPassword) {
+    alert("Debes cambiar al menos un dato.");
+    return;
+  }
+
+  fetch('/usuarios/update', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: userId,
+      name: newName || undefined,
+      password: newPassword || undefined
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.error) {
+      alert(`Error: ${data.error}`);
+    } else {
+      if (newName) {
+        sessionStorage.setItem('userName', newName);
+      }
+      alert("Datos actualizados correctamente.");
+      closeSettings();
+    }
+  })
+  .catch(err => {
+    console.error("Error al actualizar usuario:", err);
+    alert("Error al actualizar los datos.");
+  });
+}
+
