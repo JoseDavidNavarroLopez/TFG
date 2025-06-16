@@ -422,4 +422,5 @@ fetch('/mensaje/', {
     alert('Error al crear el chat');
   });
 }
+loadChatHistory(); 
 
