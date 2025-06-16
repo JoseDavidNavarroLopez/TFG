@@ -375,32 +375,6 @@ function loadChatById(chatId) {
         showLogin();
       }
     }
-//---------------------------------GUARDAR MENSAJES-----------------------------------------------------------------------
-
-function guardarMensajeEnBD(mensaje, emisor, id_conversacion) {
-  fetch('/mensaje/mensajes', {  // <-- aquí estaba '/mensaje/guardar', corregido
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id_usuario: Number(sessionStorage.getItem('userId')),
-      id_conversacion,
-      mensaje,
-      emisor,
-    }),
-  })
-    .then(res => {
-      if (!res.ok) throw new Error('Error al guardar mensaje');
-      return res.json();
-    })
-    .then(data => {
-      console.log(`Mensaje guardado (${emisor}):`, data);
-    })
-    .catch(err => {
-      console.error('Error al guardar mensaje:', err);
-    });
-}
-
-
 
 //---------------------------------GUARDAR CONVERSACIÓN-----------------------------------------------------------------------
 function mostrarInputNuevoChat() {
@@ -425,110 +399,30 @@ function crearNuevoChat() {
     alert('Debes iniciar sesión para crear un chat.');
     return;
   }
+clearChat()
 
-  fetch('/mensaje/conversacion', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id_usuario, titulo }),
-  })
+
+fetch('/mensaje/', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ 
+    id_usuario,       
+    mensaje: titulo,  
+  }),
+})
+
   .then(res => {
-    if (!res.ok) throw new Error('Error al crear la conversación');
+    if (!res.ok) throw new Error('Error al crear el nuevo chat');
     return res.json();
   })
   .then(data => {
-    sessionStorage.setItem('idConversacion', data.id_conversacion);
     alert('Chat creado correctamente');
     cerrarInputNuevoChat();
-    loadChatHistory();
-    clearChat();
+    loadChatHistory(); 
   })
   .catch(err => {
-    console.error('Error al crear la conversación:', err);
+    console.error('Error al crear nuevo chat:', err);
     alert('Error al crear el chat');
   });
 }
-
-function sendMessageBD() {
-  const text = userInput.value.trim();
-  if (!text) return;
-
-  const id_conversacion = sessionStorage.getItem('idConversacion');
-  const id_usuario = Number(sessionStorage.getItem('userId'));
-  if (!id_conversacion || !id_usuario) {
-    alert('No hay conversación activa o usuario no identificado.');
-    return;
-  }
-
-  // Ocultar respuestas rápidas
-  quickReplies.style.display = "none";
-
-  appendMessage(text, 'user');
-  userInput.value = '';
-
-  appendMessage("Escribiendo...", 'bot', true);
-
-  fetch('/mensaje/mensajes', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id_usuario,
-      id_conversacion,
-      mensaje: text
-    }),
-  })
-  .then(res => res.json())
-  .then(data => {
-    removeTyping();
-    if (data.mensajeAsistente) {
-      appendMessage(data.mensajeAsistente, 'bot');
-    } else if (data.error) {
-      appendMessage(`Error: ${data.error}`, 'bot');
-    } else {
-      appendMessage("No hay respuesta del bot.", 'bot');
-    }
-  })
-  .catch(err => {
-    removeTyping();
-    appendMessage("Hubo un error al conectar con la IA 😢", 'bot');
-    console.error(err);
-  });
-}
-
-
 loadChatHistory(); 
-
-const chatMensaje = document.getElementById('chat');
-const id_usuario = Number(sessionStorage.getItem('userId'));
-
-const observer = new MutationObserver((mutationsList) => {
-  for (let mutation of mutationsList) {
-    if (mutation.type === 'childList') {
-      mutation.addedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('message')) {
-          const mensaje = node.innerText.trim();
-          const id_conversacion = sessionStorage.getItem('idConversacion');
-
-          if (!mensaje || !id_conversacion || !id_usuario) return;
-
-          let emisor = '';
-          if (node.classList.contains('user')) {
-            emisor = 'usuario';
-          } else if (node.classList.contains('bot')) {
-            emisor = 'asistente';
-          } else {
-            return; // ignora si no es ni user ni bot
-          }
-
-          if (!node.dataset.guardado) {
-            guardarMensajeEnBD(mensaje, emisor, id_conversacion);
-            node.dataset.guardado = 'true';
-          }
-        }
-      });
-    }
-  }
-});
-
-observer.observe(chatMensaje, { childList: true, subtree: true });
-
-
