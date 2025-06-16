@@ -85,8 +85,7 @@ const login = async (req, res) => {
     const dataToUpdate = {};
     if (name) dataToUpdate.nombre = name; // usa el campo correcto
     if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      dataToUpdate.password = hashedPassword;
+      dataToUpdate.password = password;
     }
 
     if (Object.keys(dataToUpdate).length === 0) {
