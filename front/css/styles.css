@@ -366,7 +366,9 @@ header {
   display: flex;
   flex-direction: column;
 }
-
+.chat-sidebar.li{
+  display:none;
+}
 .chat-sidebar.open {
   left: 0;
 }
