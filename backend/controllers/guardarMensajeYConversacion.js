@@ -60,9 +60,11 @@ const guardarMensaje = async (req, res) => {
 
 res.json({
   id_conversacion: conversacion.id_conversacion,
-  titulo: conversacion.titulo, // agrega esto
-  mensajes: [mensajeUsuario, mensajeAsistente],
+  titulo: conversacion.titulo,
+  mensajeUsuario,
+  mensajeAsistente
 });
+
   } catch (error) {
     console.error("Error al guardar mensaje:", error);
     res.status(500).json({ error: "Error del servidor" });
