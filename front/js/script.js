@@ -372,6 +372,31 @@ function loadChatById(chatId) {
         showLogin();
       }
     }
+//---------------------------------GUARDAR MENSAJES-----------------------------------------------------------------------
+
+function guardarMensajeEnBD(mensaje, emisor, id_conversacion) {
+  fetch('/mensaje/guardar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id_usuario: Number(sessionStorage.getItem('userId')),
+      id_conversacion,
+      mensaje,
+      emisor,
+    }),
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Error al guardar mensaje');
+      return res.json();
+    })
+    .then(data => {
+      console.log(`Mensaje guardado (${emisor}):`, data);
+    })
+    .catch(err => {
+      console.error('Error al guardar mensaje:', err);
+    });
+}
+
 
 //---------------------------------GUARDAR CONVERSACIÓN-----------------------------------------------------------------------
 function mostrarInputNuevoChat() {
@@ -413,14 +438,50 @@ fetch('/mensaje/', {
     return res.json();
   })
   .then(data => {
-    alert('Chat creado correctamente');
-    cerrarInputNuevoChat();
-    loadChatHistory(); 
-  })
+  sessionStorage.setItem('idConversacion', data.id_conversacion); // GUARDAMOS ID DE CONVERSACIÓN
+  alert('Chat creado correctamente');
+  cerrarInputNuevoChat();
+  loadChatHistory(); 
+})
   .catch(err => {
     console.error('Error al crear nuevo chat:', err);
     alert('Error al crear el chat');
   });
 }
 loadChatHistory(); 
+
+const chatContainer = document.getElementById('chat');
+const id_usuario = Number(sessionStorage.getItem('userId'));
+
+const observer = new MutationObserver((mutationsList) => {
+  for (let mutation of mutationsList) {
+    if (mutation.type === 'childList') {
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('message')) {
+          const mensaje = node.innerText.trim();
+          const id_conversacion = sessionStorage.getItem('idConversacion');
+
+          if (!mensaje || !id_conversacion || !id_usuario) return;
+
+          let emisor = '';
+          if (node.classList.contains('user')) {
+            emisor = 'usuario';
+          } else if (node.classList.contains('bot')) {
+            emisor = 'asistente';
+          } else {
+            return; // ignora si no es ni user ni bot
+          }
+
+          if (!node.dataset.guardado) {
+            guardarMensajeEnBD(mensaje, emisor, id_conversacion);
+            node.dataset.guardado = 'true';
+          }
+        }
+      });
+    }
+  }
+});
+
+observer.observe(chatContainer, { childList: true, subtree: true });
+
 
