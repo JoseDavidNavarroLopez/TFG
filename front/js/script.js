@@ -390,7 +390,7 @@ function loadChatById(chatId) {
       if (email) {
         window.location.href = "chat.html";
       } else {
-        showLogin();
+        toggleLoginModal();
       }
     }
 
