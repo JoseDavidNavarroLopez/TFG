@@ -9,7 +9,7 @@ exports.getAllUsers = (req, res) => {
 
 const prisma = require('../prisma');
 
-exports.getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const usuarios = await prisma.usuarios.findMany(); // nombre exacto según tabla en DB
     res.json(usuarios);
@@ -19,7 +19,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 //añadir users
-exports.createUser = async (req, res) => {
+const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -39,8 +39,7 @@ exports.createUser = async (req, res) => {
 };
 
 //Login
-
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -65,7 +64,7 @@ exports.login = async (req, res) => {
 
 //----------------ajustes----------------------
 
-async function updateUsuarios (req, res) {
+  const updateUsuarios = async (req, res) => {
   const { id, name, password } = req.body;
 
   if (!id) {
@@ -106,7 +105,12 @@ async function updateUsuarios (req, res) {
   }
 };
 
-module.exports = {updateUsuarios};
+module.exports = {
+  getAllUsers,
+  createUser,
+  login,
+  updateUsuarios,
+};
 
 
 
