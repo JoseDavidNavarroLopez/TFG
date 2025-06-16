@@ -283,13 +283,8 @@ document.getElementById('statusMessage').textContent = modoMatematico ? 'Modo Ma
 //---------------------------------------------------------------------------------------------------------------------------------
 
 function toggleChatHistory() {
-  const panel = document.getElementById('chatHistoryPanel');
-  const isVisible = panel.style.display === 'block';
-  panel.style.display = isVisible ? 'none' : 'block';
-
-  if (!isVisible) {
-    loadChatHistory();
-  }
+   const panel = document.getElementById('chatHistoryPanel');
+  panel.classList.toggle('open');
 }
 
 function clearChat() {
@@ -330,7 +325,6 @@ function loadChatHistory() {
     .then(chats => {
       const list = document.getElementById('chatList');
       list.innerHTML = '';
-        console.log(chats);
       chats.forEach(chat => {
         const li = document.createElement('li');
         const date = new Date(chat.fecha_creacion).toLocaleString();
