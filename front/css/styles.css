@@ -376,6 +376,15 @@ header {
     list-style: none;
 }
 
+#chatList {
+    padding-left: 0;
+}
+
+#chatList li:hover{
+background-color:#c4fefe;
+
+}
+
 .chat-sidebar.open {
   left: 0;
 }
