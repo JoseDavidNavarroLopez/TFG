@@ -100,6 +100,8 @@ header {
   display: flex;
   flex-direction: column;
   scroll-behavior: smooth;
+    flex: 1;
+  overflow-y: auto;
 }
 
 .message {
@@ -297,50 +299,7 @@ header {
   box-shadow: 0 0 5px 2px #ffd700aa;
 }
 
-/* Estilo para historial de chats */
-.chat-history {
-  margin-top: 15px;
-  max-height: 70vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-right: 5px;
-}
 
-.chat-history button {
-  background-color: var(--input-bg);
-  color: var(--text-color);
-  border: none;
-  padding: 10px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: left;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 4px var(--shadow-color);
-}
-
-.chat-history button:hover {
-  background-color: var(--button-hover-bg);
-  color: white;
-  box-shadow: 0 0 8px var(--shadow-color);
-}
-
-.chat-btn {
-  background: linear-gradient(145deg, #20326e, #5eac98);
-  border: none;
-  color: white;
-  font-size: 1rem;
-  padding: 8px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 8px 16px rgba(90, 24, 154, 0.3);
-  transition: all 0.3s ease;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
 
 /*Estilo titulo pag principal*/
 .hero-title {
@@ -358,26 +317,7 @@ header {
   letter-spacing: 2px;
 }
 /*Estilo nuevo del historial de chats*/
-.chat-sidebar {
-  position: fixed;
-  right: -320px; /* escondido */
-  top: 0;
-  width: 300px;
-  height: 100%;
-  background-color: var(--input-bg);
-  color: var(--text-color);
-  box-shadow: -2px 0 10px var(--shadow-color);
-  padding: 20px;
-  overflow-y: auto;
-  transition: right 0.3s ease;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-}
 
-.chat-sidebar.open {
-  right: 0;
-}
 
 .chat-sidebar h3 {
   margin-bottom: 15px;
@@ -398,7 +338,7 @@ header {
   border-radius: 12px;
   box-shadow: 0 2px 6px var(--shadow-color);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 1s ease;
   font-size: 0.95rem;
   border: 1px solid transparent;
 }
@@ -408,3 +348,63 @@ header {
   color: white;
   box-shadow: 0 4px 10px var(--shadow-color);
 }
+
+
+.chat-sidebar {
+  position: fixed;
+  left: -340px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  box-shadow: 2px 0 10px var(--shadow-color);
+  padding: 20px;
+  overflow-y: auto;
+  transition: left 0.5s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-sidebar.open {
+  left: 0;
+}
+
+.main-content {
+  transition: margin-left 0.5s ease;
+  margin-left: 0;
+  padding: 0px;
+  height: 100vh;
+   display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.main-content.shifted {
+  margin-left: 340px;
+}
+
+.chat-btn {
+  background: linear-gradient(145deg, #20326e, #5eac98);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(90, 24, 154, 0.3);
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+
+
+
+
+
+
+
