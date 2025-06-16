@@ -65,7 +65,7 @@ exports.login = async (req, res) => {
 
 //----------------ajustes----------------------
 
-async (req, res) => {
+async function updateUsuarios (req, res) => {
   const { id, name, password } = req.body;
 
   if (!id) {
@@ -106,7 +106,7 @@ async (req, res) => {
   }
 };
 
-module.exports = router;
+module.exports = {updateUsuarios};
 
 
 
