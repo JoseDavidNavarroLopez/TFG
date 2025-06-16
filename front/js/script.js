@@ -493,7 +493,7 @@ function sendMessageBD() {
 
 loadChatHistory(); 
 
-const chatContainer = document.getElementById('chat-container');
+const chatMensaje = document.getElementById('chat-container');
 const id_usuario = Number(sessionStorage.getItem('userId'));
 
 const observer = new MutationObserver((mutationsList) => {
