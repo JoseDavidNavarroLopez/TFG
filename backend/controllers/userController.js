@@ -104,7 +104,7 @@ async (req, res) => {
     console.error('Error al actualizar usuario:', error);
     res.status(500).json({ error: 'Error del servidor.' });
   }
-});
+};
 
 module.exports = router;
 
