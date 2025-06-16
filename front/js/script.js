@@ -129,17 +129,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function toggleLoginModal() {
   const user = sessionStorage.getItem('userEmail');
-  const modal = document.getElementById('loginModal');
+  const modal = loginModal;
 
   if (user) {
     showUserMenu();
   } else {
-    // Alterna la visibilidad del modal
     modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
   }
 }
 
-// Cierra el modal al hacer clic fuera
 window.addEventListener('click', function(e) {
   const modal = document.getElementById('loginModal');
   const content = modal.querySelector('.login-content');
