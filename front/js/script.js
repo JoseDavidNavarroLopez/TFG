@@ -425,8 +425,8 @@ fetch('/mensaje/', {
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ 
     id_usuario,       
-    titulo: titulo, 
-    mensaje
+    titulo: mensaje
+    
   }),
 })
 
