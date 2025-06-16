@@ -72,12 +72,7 @@ exports.login = async (req, res) => {
 
 //------------------pa flipar------------------
 
-const express = require('express');
-const router = express.Router();
-const bcrypt = require('bcrypt');
-const { PrismaClient } = require('@prisma/client');
 
-const prisma = new PrismaClient();
 
 // PUT /usuarios/update
 router.put('/update', async (req, res) => {
