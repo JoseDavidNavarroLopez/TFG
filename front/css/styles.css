@@ -330,7 +330,7 @@ header {
   flex-direction: column;
   gap: 10px;
 }
-.chat-history ul li{
+.chat-history li{
 list-style-type:none
 }
 
