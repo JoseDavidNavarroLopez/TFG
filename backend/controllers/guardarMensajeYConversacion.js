@@ -1,14 +1,10 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const responderAsistente = (mensaje) => {
-  return `Respuesta automática a: "${mensaje}"`;
-};
-
 const guardarMensaje = async (req, res) => {
   try {
     const { id_usuario, mensaje, id_conversacion } = req.body;
-     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
+    const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
 
     // Validación básica
     if (!mensaje || !id_usuario) {
@@ -43,27 +39,16 @@ const guardarMensaje = async (req, res) => {
       },
     });
 
-    const respuesta = responderAsistente(mensaje);
-
-    const mensajeAsistente = await prisma.mensajes.create({
-      data: {
-        id_conversacion: conversacion.id_conversacion,
-        emisor: "asistente",
-        mensaje: respuesta,
-      },
-    });
-
     await prisma.conversaciones.update({
       where: { id_conversacion: conversacion.id_conversacion },
       data: { fecha_ultimo_mensaje: new Date() },
     });
 
-res.json({
-  id_conversacion: conversacion.id_conversacion,
-  titulo: conversacion.titulo,
-  mensajeUsuario,
-  mensajeAsistente
-});
+    res.json({
+      id_conversacion: conversacion.id_conversacion,
+      titulo: conversacion.titulo,
+      mensajeUsuario,
+    });
 
   } catch (error) {
     console.error("Error al guardar mensaje:", error);
