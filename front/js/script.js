@@ -429,10 +429,12 @@ fetch('/mensaje/', {
     return res.json();
   })
   .then(data => {
-    alert('Chat creado correctamente');
-    cerrarInputNuevoChat();
-    loadChatHistory(); 
-  })
+  window.currentConversationId = data.id_conversacion; 
+  alert('Chat creado correctamente');
+  cerrarInputNuevoChat();
+  loadChatHistory(); 
+})
+
   .catch(err => {
     console.error('Error al crear nuevo chat:', err);
     alert('Error al crear el chat');
