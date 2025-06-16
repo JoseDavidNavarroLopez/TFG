@@ -4,10 +4,10 @@ const router = express.Router();
 const { crearConversacion, guardarMensaje } = require("../controllers/guardarMensajeYConversacion");
 
 // Ruta para crear nueva conversación
-router.post("/conversacion", crearConversacion);
+
 
 // Ruta para guardar mensaje en conversación existente
-router.post("/mensajes", guardarMensaje);
+router.post("/", guardarMensaje);
 
 module.exports = router;
 
