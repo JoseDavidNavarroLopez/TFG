@@ -369,6 +369,8 @@ header {
 }
 .chat-sidebar li{
   list-style: none;
+  padding:0 px;
+  width:80%;
 }
 .chat-sidebar.open {
   left: 0;
