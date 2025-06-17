@@ -3,7 +3,7 @@ const { getChatbotResponse } = require("../services/openai");
 const { detectIntentFromMessage } = require("../services/intent.js"); // lo crearás abajo
 
 const fetch = require("node-fetch");
-
+const API_KEY = "sk-d9818b65ca4b485e9d8355d8cad3a7bc";
 const chatConIA = async (req, res) => {
   const userMessage = req.body.message;
   if (!userMessage) {
