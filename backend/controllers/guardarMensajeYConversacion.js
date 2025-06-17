@@ -12,6 +12,11 @@ const guardarMensaje = async (req, res) => {
     if (!mensaje || !id_usuario) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
+    const tituloRaw = req.body.titulo;
+const titulo = (typeof tituloRaw === 'string' && tituloRaw.trim() !== '')
+  ? tituloRaw.trim()
+  : (typeof mensaje === 'string' ? mensaje.substring(0, 50) : null);
+
 
     let conversacion;
 
@@ -19,9 +24,7 @@ const guardarMensaje = async (req, res) => {
       conversacion = await prisma.conversaciones.create({
         data: {
           id_usuario: idUsuarioInt,
-          titulo: typeof titulo === 'string' && titulo.trim() !== ''
-            ? titulo.trim()
-            : mensaje.substring(0, 50),
+          titulo: titulo,
           estado: "en curso",
         },
       });
