@@ -388,7 +388,7 @@ function loadChatById(chatId) {
       // Asegura que se mantiene la sesión al ir al chat
       const email = sessionStorage.getItem("userEmail");
       if (email) {
-        window.location.href = "chat.html";
+        window.location.href = "html/chat.html";
       } else {
         toggleLoginModal();
       }
