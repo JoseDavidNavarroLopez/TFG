@@ -17,7 +17,7 @@ const guardarMensaje = async (req, res) => {
       conversacion = await prisma.conversaciones.create({
         data: {
           id_usuario,
-          titulo: mensaje.substring(0, 50),
+           titulo: String(mensaje).substring(0, 50),
           estado: "en curso",
         },
       });
