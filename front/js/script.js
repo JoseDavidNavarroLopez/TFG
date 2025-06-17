@@ -8,11 +8,19 @@ const API_KEY = "sk-d9818b65ca4b485e9d8355d8cad3a7bc";
 const API_URL = "https://api.deepseek.com/v1/chat/completions";
 
 let modoMatematico = false; // Estado inicial del modo matemático
+let isSending = false; // Flag para evitar doble envío
 
 //---------------------------------------------------------------------------------------------------------------------------------
 function sendMessage() {
+    if (isSending) return;
+    isSending = true;
+    setTimeout(() => { isSending = false; }, 500); // Evita doble envío rápido
+
     const text = userInput.value.trim();
-    if (!text) return;
+    if (!text) {
+      isSending = false;
+      return;
+    }
   
     // Ocultar las respuestas rápidas
     quickReplies.style.display = "none";
@@ -114,7 +122,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const userInput = document.getElementById('userInput');
   if (userInput) {
     userInput.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") sendMessage();
+      if (e.key === "Enter") {
+        e.preventDefault(); 
+        sendMessage();
+      }
     });
   }
 
