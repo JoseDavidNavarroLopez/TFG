@@ -21,23 +21,25 @@
     <header>
       <div class="header-left">
         <button class="chat-btn" onclick="toggleChatHistory()">☰</button>
-        <span class="title">AteneAI</span>
+        <span class="title" style="font-size: larger;font-family:Verdana, Geneva, Tahoma, sans-serif;color:rgb(255, 255, 255)">AteneAI</span>
+        
       </div>
-      <button onclick="mostrarInputNuevoChat()" style="background-color: #2e2e58; color: white; border: none; padding: 6px 10px; border-radius: 20px;  cursor: pointer; margin: 15px 10px; font-size: 0.85rem;">➕ Nuevo Chat</button>
 
       <!-- Modal para escribir título del nuevo chat -->
-      <div id="nuevoChatModal" style="display:none; position:fixed; top:30%; left:50%; transform:translateX(-50%); background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2); z-index:999;">
-        <label for="tituloChat">Pon título del chat:</label><br>
-        <input type="text" id="tituloChat" placeholder="Titulo de la conversación" style="margin: 10px 0; padding:5px; width:100%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
-        <div style="text-align: right;">
+      <div id="nuevoChatModal" class="nuevoChatModal">
+        <label for="tituloChat" style="color:black;font-size:large;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Introduzca el título del chat:</label><br>
+        <input type="text" id="tituloChat" placeholder="Titulo de la conversación" style="margin: 10px;margin-left:-7px;border-radius:8px; padding:5px; width:100%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);" />
+        <div style="display:flex;justify-content:space-evenly;">
           <button class="boton" onclick="crearNuevoChat()">Aceptar</button>
           <button class="boton" onclick="cerrarInputNuevoChat()">Cancelar</button>
         </div>
       </div>
 
       <div class="menu">
+              <button onclick="mostrarInputNuevoChat()" style="background-color: #2e2e58; color: white; border: none; padding: 6px 10px; border-radius: 20px;  cursor: pointer; margin: 15px 10px; font-size: 0.85rem;">➕ Nuevo Chat</button>
+
         <button class="toggle-mode" style="background:none;border:none;" onclick="toggleDarkMode()">🌓</button>
-        <button class="menu-btn" onclick="toggleLoginModal()"><img src="../recursos/peerfil.png" style="height:30px;width:30px;margin-top:10px"></button>
+        <button class="menu-btn" onclick="toggleLoginModal()"><img src="../recursos/peerfil.png" style="height:30px;width:30px;margin-top:10px;background-color:#8b8eaf;border-radius:13px"></button>
       </div>
     </header>
 
@@ -54,7 +56,7 @@
     <button class="quick-reply" onclick="sendMessageQuick('Ayuda')">Ayuda</button>
   </div>
 
-  <div class="input-area">
+  <div class="input-area" >
     <input type="text" id="userInput" placeholder="Escribe tu mensaje..." />
     <button onclick="sendMessage()">Enviar</button>
   </div>
