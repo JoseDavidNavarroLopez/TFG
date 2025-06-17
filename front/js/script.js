@@ -23,7 +23,7 @@ function sendMessage() {
 
   appendMessage("Escribiendo...", 'bot', true);
 
-  fetch("/api/chat", {
+  fetch("/api/chat/ia", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
