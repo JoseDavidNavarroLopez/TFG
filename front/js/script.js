@@ -401,11 +401,11 @@ console.log(titulo);
 fetch('/mensaje/', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({ 
-  id_usuario,
-  titulo: titulo.toString()
-  
-})
+  body: JSON.stringify({ 
+    id_usuario,
+    titulo: titulo.toString(),
+    mensaje: "Inicio de conversación"  // 👈 necesario para no romper la validación
+  })
 })
 
   .then(res => {
