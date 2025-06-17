@@ -21,23 +21,27 @@ const guardarMensaje = async (req, res) => {
     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
 
     // Permitir crear conversación solo con título (sin mensaje)
-    if (!id_conversacion) {
-      const conversacion = await prisma.conversaciones.create({
-        data: {
-          id_usuario: idUsuarioInt,
-          titulo: titulo.substring(0, 50),
-          estado: "en curso",
-        },
-      });
-       else {
-      conversacion = await prisma.conversaciones.findUnique({
-        where: { id_conversacion },
-      });
-      return res.json({
-        id_conversacion: conversacion.id_conversacion,
-        titulo: conversacion.titulo,
-      });
-    }
+  let conversacion;
+
+if (!id_conversacion) {
+  conversacion = await prisma.conversaciones.create({
+    data: {
+      id_usuario: idUsuarioInt,
+      titulo: titulo.substring(0, 50),
+      estado: "en curso",
+    },
+  });
+} else {
+  conversacion = await prisma.conversaciones.findUnique({
+    where: { id_conversacion },
+  });
+}
+
+return res.json({
+  id_conversacion: conversacion.id_conversacion,
+  titulo: conversacion.titulo,
+});
+
 
     // Validación básica para guardar mensaje
     if (!mensaje || !id_usuario) {
