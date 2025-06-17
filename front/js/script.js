@@ -380,12 +380,18 @@ function loadChatHistory() {
 }
 
 function loadChatById(chatId) {
-  clearChat();  
+  clearChat();
   mensajesYaGuardados.clear();
 
   fetch(`/api/chat/${encodeURIComponent(chatId)}`)
     .then(res => {
-      if (!res.ok) throw new Error('Error al cargar el chat');
+      if (!res.ok) {
+        if (res.status === 404) {
+          throw new Error('La conversación no fue encontrada.');
+        } else {
+          throw new Error(`Error al cargar el chat: ${res.statusText}`);
+        }
+      }
       return res.json();
     })
     .then(chat => {
@@ -393,8 +399,12 @@ function loadChatById(chatId) {
         appendMessage(msg.mensaje, msg.emisor === 'usuario' ? 'user' : 'bot');
       });
     })
-    .catch(err => console.error('Error cargando chat:', err));
+    .catch(err => {
+      console.error('Error cargando chat:', err);
+      alert(err.message);
+    });
 }
+
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
