@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const guardarMensaje = async (req, res) => {
   try {
-    const { id_usuario, mensaje, id_conversacion, titulo } = req.body;
+    const { id_usuario, mensaje, id_conversacion } = req.body;
     console.log("📨 Body recibido en /mensaje:", req.body);
     
     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
