@@ -4,23 +4,20 @@ const prisma = new PrismaClient();
 const guardarMensaje = async (req, res) => {
   try {
     const { id_usuario, mensaje, id_conversacion } = req.body;
-    console.log("📨 Body recibido en /mensaje:", req.body);
-    
     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
 
     // Validación básica
     if (!mensaje || !id_usuario) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
-    
 
     let conversacion;
 
     if (!id_conversacion) {
       conversacion = await prisma.conversaciones.create({
         data: {
-          id_usuario: idUsuarioInt,
-          titulo: mensaje.substring(0,50),
+          id_usuario,
+          titulo: mensaje.substring(0, 50),
           estado: "en curso",
         },
       });
@@ -33,8 +30,6 @@ const guardarMensaje = async (req, res) => {
         return res.status(404).json({ error: "Conversación no encontrada" });
       }
     }
-
-   
 
     const mensajeUsuario = await prisma.mensajes.create({
       data: {
