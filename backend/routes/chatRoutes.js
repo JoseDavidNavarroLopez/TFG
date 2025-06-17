@@ -12,6 +12,6 @@ router.post("/", procesarMensaje);
 router.post("/historial", obtenerHistorialChats);
 router.get("/:id", obtenerChatPorId);
 router.post("/conver", guardarNuevaConversacion); 
-router.post("/chat", chatConIA);
+router.post("/ia", chatConIA);
 
 module.exports = router;
