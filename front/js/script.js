@@ -525,4 +525,7 @@ function saveSettings() {
     alert("Error al actualizar los datos.");
   });
 }
+    alert("Error al actualizar los datos.");
+  );
+}
 
