@@ -7,48 +7,55 @@ const aboutPopup = document.getElementById('about');
 const API_KEY = "sk-d9818b65ca4b485e9d8355d8cad3a7bc";
 const API_URL = "https://api.deepseek.com/v1/chat/completions";
 
-
+let modoMatematico = false; // Estado inicial del modo matemático
 
 //---------------------------------------------------------------------------------------------------------------------------------
 function sendMessage() {
-  const text = userInput.value.trim();
-  if (!text) return;
-
-  // Ocultar las respuestas rápidas
-  quickReplies.style.display = "none";
-
-  appendMessage(text, 'user');
-  userInput.value = '';
-
-  appendMessage("Escribiendo...", 'bot', true);
-
-  fetch("/api/chat/ia", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ message: text })
-  })
-    .then(res => res.json())
-    .then(data => {
-      let botMsg = "Lo siento, no tengo respuesta.";
-
-      if (data.reply) {
-        botMsg = data.reply;
-      } else if (data.error) {
-        botMsg = `Error: ${data.error}`;
-      }
-
-      removeTyping();
-      appendMessage(botMsg, 'bot');
+    const text = userInput.value.trim();
+    if (!text) return;
+  
+    // Ocultar las respuestas rápidas
+    quickReplies.style.display = "none";
+  
+    appendMessage(text, 'user');
+    userInput.value = '';
+  
+    appendMessage("Escribiendo...", 'bot', true);
+  
+    fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization":` Bearer ${API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [
+          { role: "system", content: "Eres una asistente llamada AteneAI, amigable y útil." },
+          { role: "user", content: text }
+        ],
+        temperature: modoMatematico ? 0.3 : 0.7
+      })
     })
-    .catch(err => {
-      removeTyping();
-      appendMessage("Hubo un error al conectar con el servidor 😢", 'bot');
-      console.error(err);
-    });
-}
-
+      .then(res => res.json())
+      .then(data => {
+        let botMsg = "Lo siento, no tengo respuesta.";
+  
+        if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
+          botMsg = data.choices[0].message.content;
+        } else if (data.error) {
+          botMsg = `Error: ${data.error.message};`
+        }
+  
+        removeTyping();
+        appendMessage(botMsg, 'bot');
+      })
+      .catch(err => {
+        removeTyping();
+        appendMessage("Hubo un error al conectar con la IA 😢", 'bot');
+        console.error(err);
+      });
+  }
 //---------------------------------------------------------------------------------------------------------------------------------
 function appendMessage(text, sender, isTyping = false) {
     const msg = document.createElement('div');
@@ -250,8 +257,8 @@ function showUserMenu() {
    menu.innerHTML =` 
     <p style="margin: 5px 0;">👋 Hola, <strong>${name}</strong></p>
     <p style="margin: 5px 0; font-size: 0.9em; color: gray;">${email}</p>
-    <button class="boton" onclick="openSettings()">Ajustes</button>
-    <button class="boton" onclick="logout()">Cerrar sesión</button>`
+    <button onclick="openSettings()">Ajustes</button>
+    <button onclick="logout()">Cerrar sesión</button>`
   ;
 
   closeUserMenu(); // Elimina otro menú si ya está
@@ -275,6 +282,21 @@ function openSettings() {
 }
 
 
+
+//---------------------------------------------------------------------------------------------------------------------------------
+function toggleModoMatematico() {
+  modoMatematico = !modoMatematico;
+document.getElementById('statusMessage').textContent = modoMatematico ? 'Modo Matemático ACTIVADO' : '';
+
+  const btn = document.getElementById('modoMatematicoBtn');
+  if (modoMatematico) {
+    btn.classList.add('active');
+  } else {
+    btn.classList.remove('active');
+  }
+
+  alert(`Modo matemático ${modoMatematico ? 'activado (temperatura 0.3)' : 'desactivado (temperatura 0.7)'}`);
+}
 
 //---------------------------------------------------------------------------------------------------------------------------------
 
@@ -366,7 +388,7 @@ function loadChatById(chatId) {
       // Asegura que se mantiene la sesión al ir al chat
       const email = sessionStorage.getItem("userEmail");
       if (email) {
-        window.location.href = "../html/chat.html";
+        window.location.href = "chat.html";
       } else {
         toggleLoginModal();
       }
@@ -396,16 +418,15 @@ function crearNuevoChat() {
     return;
   }
 clearChat()
-console.log(titulo);
+
 
 fetch('/mensaje/', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ 
-    id_usuario,
-    titulo: titulo.toString(),
-    mensaje: "Inicio de conversación"  // 👈 necesario para no romper la validación
-  })
+    id_usuario,       
+    titulo: titulo,  
+  }),
 })
 
   .then(res => {
@@ -443,7 +464,7 @@ const observer = new MutationObserver(mutations => {
         if (!id_usuario) return;
 
         mensajesYaGuardados.add(texto);
-        
+
         fetch('/mensaje/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -492,8 +513,8 @@ function saveSettings() {
     return;
   }
 
-  fetch('/usuarios/settings', {
-    method: 'POST',
+  fetch('/usuarios/update', {
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       id: userId,
@@ -518,3 +539,4 @@ function saveSettings() {
     alert("Error al actualizar los datos.");
   });
 }
+
