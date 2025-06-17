@@ -3,7 +3,21 @@ const prisma = new PrismaClient();
 
 const guardarMensaje = async (req, res) => {
   try {
-    const { id_usuario, mensaje, id_conversacion } = req.body;
+    // LOG para depuración
+    console.log("BODY recibido en guardarMensaje:", req.body);
+
+    const { id_usuario, mensaje, id_conversacion, titulo } = req.body;
+    console.log(
+      "id_usuario:",
+      id_usuario,
+      "mensaje:",
+      mensaje,
+      "id_conversacion:",
+      id_conversacion,
+      "titulo:",
+      titulo
+    );
+
     const idUsuarioInt = id_usuario ? parseInt(id_usuario) : null;
 
     // Validación básica
@@ -49,7 +63,6 @@ const guardarMensaje = async (req, res) => {
       titulo: conversacion.titulo,
       mensajeUsuario,
     });
-
   } catch (error) {
     console.error("Error al guardar mensaje:", error);
     res.status(500).json({ error: "Error del servidor" });
