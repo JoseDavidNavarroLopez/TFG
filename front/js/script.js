@@ -373,9 +373,9 @@ function loadChatById(chatId) {
       return res.json();
     })
     .then(chat => {
-      clearChat(); // limpia el contenedor del chat actual
+      clearChat(); 
       chat.messages.forEach(msg => {
-        appendMessage(msg.mensaje, msg.emisor === 'usuario' ? 'usuario' : 'bot');
+        appendMessage(msg.mensaje, msg.emisor === 'usuario' ? 'user' : 'bot');
       });
     })
     .catch(err => console.error('Error cargando chat:', err));
@@ -425,7 +425,7 @@ fetch('/mensaje/', {
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ 
     id_usuario,
-    titulo // <-- este campo es el correcto
+    titulo 
   }),
 })
 
@@ -457,7 +457,16 @@ const observer = new MutationObserver(mutations => {
 
         if (texto === "Escribiendo…" || mensajesYaGuardados.has(texto)) continue;
 
-        const emisor = node.classList.contains('user') ? 'usuario' : 'asistente';
+        // Determinar emisor según la clase del mensaje
+        let emisor;
+        if (node.classList.contains('user')) {
+          emisor = 'usuario';
+        } else if (node.classList.contains('bot')) {
+          emisor = 'asistente';
+        } else {
+          emisor = 'usuario'; 
+        }
+
         const id_usuario = Number(sessionStorage.getItem('userId'));
         const id_conversacion = window.currentConversationId || null;
 
@@ -471,12 +480,12 @@ const observer = new MutationObserver(mutations => {
           body: JSON.stringify({
             id_usuario,
             mensaje: texto,
-            id_conversacion
+            id_conversacion,
+            emisor 
           }),
         })
         .then(res => res.json())
         .then(data => {
-         
           if (!window.currentConversationId) {
             window.currentConversationId = data.id_conversacion;
           }

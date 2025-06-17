@@ -6,7 +6,7 @@ const guardarMensaje = async (req, res) => {
     // LOG para depuración (antes de cualquier return)
     console.log("BODY recibido en guardarMensaje:", req.body);
 
-    const { id_usuario, mensaje, id_conversacion, titulo } = req.body;
+    const { id_usuario, mensaje, id_conversacion, titulo, emisor } = req.body;
     console.log(
       "id_usuario:",
       id_usuario,
@@ -63,7 +63,7 @@ const guardarMensaje = async (req, res) => {
     const mensajeUsuario = await prisma.mensajes.create({
       data: {
         id_conversacion: conversacion.id_conversacion,
-        emisor: "usuario",
+        emisor: emisor || "usuario", 
         mensaje,
       },
     });
