@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+app.use(express.json());
+
 // Manejar preflight OPTIONS requests
 app.options('*', (req, res) => {
   res.header('Access-Control-Allow-Origin', 'https://ateneai.onrender.com');
@@ -19,7 +21,7 @@ app.get('/', (req, res) => {
 });
 
 // Middlewares
-app.use(express.json());
+
 
 // Rutas
 const userRoutes = require('./routes/userRoutes');
