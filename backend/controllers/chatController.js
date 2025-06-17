@@ -2,45 +2,6 @@ const prisma = require("../prisma.js");
 const { getChatbotResponse } = require("../services/openai");
 const { detectIntentFromMessage } = require("../services/intent.js"); // lo crearás abajo
 
-const fetch = require("node-fetch");
-const API_KEY = "sk-d9818b65ca4b485e9d8355d8cad3a7bc";
-const chatConIA = async (req, res) => {
-  const userMessage = req.body.message;
-  if (!userMessage) {
-    return res.status(400).json({ error: 'Mensaje vacío' });
-  }
-
-  try {
-    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "deepseek-chat",
-        messages: [
-          { role: "system", content: "Eres una asistente llamada AteneAI, amigable y útil." },
-          { role: "user", content: userMessage }
-        ],
-        temperature: 0.7
-      })
-    });
-
-    const data = await response.json();
-
-    if (data.choices && data.choices.length > 0) {
-      return res.json({ reply: data.choices[0].message.content });
-    } else {
-      return res.json({ reply: "Lo siento, no tengo respuesta." });
-    }
-  } catch (error) {
-    console.error("Error al comunicarse con DeepSeek:", error);
-    return res.status(500).json({ error: 'Error en el servidor de IA' });
-  }
-};
-
-
 async function procesarMensaje(req, res) {
   const { userId, message } = req.body;
   try {
@@ -307,5 +268,4 @@ module.exports = {
   obtenerHistorialChats,
   obtenerChatPorId,
   guardarNuevaConversacion,
-  chatConIA,
 };
