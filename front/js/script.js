@@ -396,15 +396,15 @@ function crearNuevoChat() {
     return;
   }
 clearChat()
-
+console.log(titulo);
 
 fetch('/mensaje/', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
  body: JSON.stringify({ 
   id_usuario,
-  titulo,
-  mensaje: "Inicio de conversación"  // mensaje temporal o simbólico
+  titulo: titulo.toString()
+  
 })
 })
 
@@ -443,7 +443,7 @@ const observer = new MutationObserver(mutations => {
         if (!id_usuario) return;
 
         mensajesYaGuardados.add(texto);
-
+        
         fetch('/mensaje/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
