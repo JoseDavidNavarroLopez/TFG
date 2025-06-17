@@ -375,7 +375,7 @@ function loadChatById(chatId) {
     .then(chat => {
       clearChat(); // limpia el contenedor del chat actual
       chat.messages.forEach(msg => {
-        appendMessage(msg.mensaje, msg.emisor === 'user' ? 'user' : 'assistant');
+        appendMessage(msg.mensaje, msg.emisor === 'usuario' ? 'usuario' : 'bot');
       });
     })
     .catch(err => console.error('Error cargando chat:', err));
