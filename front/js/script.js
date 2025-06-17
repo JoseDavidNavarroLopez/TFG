@@ -380,13 +380,15 @@ function loadChatHistory() {
 }
 
 function loadChatById(chatId) {
+  clearChat();  
+  mensajesYaGuardados.clear();
+
   fetch(`/api/chat/${encodeURIComponent(chatId)}`)
     .then(res => {
       if (!res.ok) throw new Error('Error al cargar el chat');
       return res.json();
     })
     .then(chat => {
-      clearChat(); 
       chat.messages.forEach(msg => {
         appendMessage(msg.mensaje, msg.emisor === 'usuario' ? 'user' : 'bot');
       });
