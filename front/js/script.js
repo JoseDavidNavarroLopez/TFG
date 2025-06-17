@@ -424,8 +424,8 @@ fetch('/mensaje/', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ 
-    id_usuario,       
-    mensaje: titulo,  
+    id_usuario,
+    titulo // <-- este campo es el correcto
   }),
 })
 
