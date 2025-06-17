@@ -12,60 +12,44 @@ let isSending = false; // Flag para evitar doble envío
 
 //---------------------------------------------------------------------------------------------------------------------------------
 function sendMessage() {
-    if (isSending) return;
-    isSending = true;
-    setTimeout(() => { isSending = false; }, 500); // Evita doble envío rápido
+  const text = userInput.value.trim();
+  if (!text) return;
 
-    const text = userInput.value.trim();
-    if (!text) {
-      isSending = false;
-      return;
-    }
-  
-    // Ocultar las respuestas rápidas
-    quickReplies.style.display = "none";
+  // Ocultar las respuestas rápidas
+  quickReplies.style.display = "none";
 
-    console.log("ejecucion de sendmessage");
-  
-    appendMessage(text, 'user');
-    userInput.value = '';
-  
-    appendMessage("Escribiendo...", 'bot', true);
-  
-    fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization":` Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "deepseek-chat",
-        messages: [
-          { role: "system", content: "Eres una asistente llamada AteneAI, amigable y útil." },
-          { role: "user", content: text }
-        ],
-        temperature: modoMatematico ? 0.3 : 0.7
-      })
+  appendMessage(text, 'user');
+  userInput.value = '';
+
+  appendMessage("Escribiendo...", 'bot', true);
+
+  fetch("/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: text })
+  })
+    .then(res => res.json())
+    .then(data => {
+      let botMsg = "Lo siento, no tengo respuesta.";
+
+      if (data.reply) {
+        botMsg = data.reply;
+      } else if (data.error) {
+        botMsg = `Error: ${data.error}`;
+      }
+
+      removeTyping();
+      appendMessage(botMsg, 'bot');
     })
-      .then(res => res.json())
-      .then(data => {
-        let botMsg = "Lo siento, no tengo respuesta.";
-  
-        if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
-          botMsg = data.choices[0].message.content;
-        } else if (data.error) {
-          botMsg = `Error: ${data.error.message};`
-        }
-  
-        removeTyping();
-        appendMessage(botMsg, 'bot');
-      })
-      .catch(err => {
-        removeTyping();
-        appendMessage("Hubo un error al conectar con la IA 😢", 'bot');
-        console.error(err);
-      });
-  }
+    .catch(err => {
+      removeTyping();
+      appendMessage("Hubo un error al conectar con el servidor 😢", 'bot');
+      console.error(err);
+    });
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------
 function appendMessage(text, sender, isTyping = false) {
     const msg = document.createElement('div');
