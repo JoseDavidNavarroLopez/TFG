@@ -257,8 +257,8 @@ function showUserMenu() {
    menu.innerHTML =` 
     <p style="margin: 5px 0;">👋 Hola, <strong>${name}</strong></p>
     <p style="margin: 5px 0; font-size: 0.9em; color: gray;">${email}</p>
-    <button onclick="openSettings()">Ajustes</button>
-    <button onclick="logout()">Cerrar sesión</button>`
+    <button class="boton" onclick="openSettings()">Ajustes</button>
+    <button class="boton" onclick="logout()">Cerrar sesión</button>`
   ;
 
   closeUserMenu(); // Elimina otro menú si ya está
@@ -525,6 +525,3 @@ function saveSettings() {
     alert("Error al actualizar los datos.");
   });
 }
-   
-
-
