@@ -16,6 +16,8 @@ function sendMessage() {
   
     // Ocultar las respuestas rápidas
     quickReplies.style.display = "none";
+
+    console.log("ejecucion de sendmessage");
   
     appendMessage(text, 'user');
     userInput.value = '';
