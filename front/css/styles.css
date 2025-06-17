@@ -9,6 +9,7 @@
   --shadow-color: rgba(0, 0, 0, 0.2);
   --input-color: #d3e0e0;
   --secundary-colors:rgb(240, 240, 240);
+  --bgchatmodal-color:#ecf0f7
 }
 
 body.dark {
@@ -20,8 +21,24 @@ body.dark {
   --input-bg: #2c2d3a;
   --button-hover-bg: #444444;
   --shadow-color: rgba(70, 70, 70, 0.192);
-  --input-color: #afdffa;
+  --input-color: #919191;
    --secundary-colors:rgb(48, 48, 53);
+     --bgchatmodal-color:rgb(96, 81, 109);
+
+}
+
+.nuevoChatModal{
+  display:none; 
+  position:fixed;
+   top:30%;
+    left:50%;
+     transform:translateX(-50%); 
+     background:var(--bgchatmodal-color); 
+     padding:20px; 
+     border-radius:10px; 
+     box-shadow:0 0 10px rgba(0,0,0,0.2);
+      z-index:999;
+      
 }
 
 body {
@@ -144,6 +161,7 @@ header {
     background-color: var(--secundary-colors);
     width: 30%;
     align-self: anchor-center;
+    justify-content: center;
 }
 
 .input-area input {
@@ -412,12 +430,31 @@ background-color:#c4fefe !important;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 600;
   letter-spacing: 0.5px;
+  margin-right: 10px;
 }
 
+.boton{
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  padding: 0.3em 1em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #2e2e58;
+  color:white;
+  text-align: center;
+}
+.boton:hover {
+  background-color: #4338CA;
+}
 
+div.header-left{
+  display: flex;
+}
 
-
-
-
-
-
+.input-area input::placeholder{
+  color:#2b2a2a
+}
