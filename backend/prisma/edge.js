@@ -103,7 +103,8 @@ exports.Prisma.ConversacionesScalarFieldEnum = {
   id_usuario: 'id_usuario',
   fecha_inicio: 'fecha_inicio',
   fecha_ultimo_mensaje: 'fecha_ultimo_mensaje',
-  estado: 'estado'
+  estado: 'estado',
+  titulo: 'titulo'
 };
 
 exports.Prisma.IntentsScalarFieldEnum = {
