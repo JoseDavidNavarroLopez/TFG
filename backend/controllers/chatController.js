@@ -203,11 +203,17 @@ async function obtenerHistorialChats(req, res) {
         id_conversacion: true,
         fecha_inicio: true,
         estado: true,
-        titulo:true,
+        titulo: true,
       },
     });
 
-    res.json(chats);
+    // Forzar título por defecto si está vacío/nulo
+    const chatsConTitulo = chats.map(chat => ({
+      ...chat,
+      titulo: (chat.titulo && chat.titulo.trim()) ? chat.titulo : "Conversación sin título"
+    }));
+
+    res.json(chatsConTitulo);
   } catch (err) {
     console.error("Error obteniendo historial:", err);
     res.status(500).json({ error: "Error al obtener historial de chats" });

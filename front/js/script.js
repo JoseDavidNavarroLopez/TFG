@@ -348,8 +348,8 @@ function loadChatHistory() {
       list.innerHTML = '';
       chats.forEach(chat => {
         const li = document.createElement('li');
-        const date = new Date(chat.fecha_creacion).toLocaleString();
-        const title=chat.titulo;
+        // Mostrar "Conversación sin título" si no hay título válido
+        let title = (chat.titulo && chat.titulo.trim()) ? chat.titulo : "Conversación sin título";
         li.textContent = title;
         li.style.cursor = 'pointer';
         li.style.padding = '6px 10px';
