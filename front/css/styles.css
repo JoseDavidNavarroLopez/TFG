@@ -10,6 +10,7 @@
   --input-color: #d3e0e0;
   --secundary-colors:rgb(240, 240, 240);
   --bgchatmodal-color:#ecf0f7
+   --bg-colors: #c7d7f0;
 }
 
 body.dark {
@@ -24,6 +25,7 @@ body.dark {
   --input-color: #919191;
    --secundary-colors:rgb(48, 48, 53);
      --bgchatmodal-color:rgb(96, 81, 109);
+   --bg-colors: #c7d7f0;
 
 }
 
@@ -394,7 +396,7 @@ header {
 }
 
 #chatList li:hover{
-background-color:var(--bg-color) !important;
+background-color:var(--bg-colors) !important;
 
 }
 
