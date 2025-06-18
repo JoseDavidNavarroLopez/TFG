@@ -7,8 +7,8 @@ const aboutPopup = document.getElementById('about');
 const API_KEY = "sk-d9818b65ca4b485e9d8355d8cad3a7bc";
 const API_URL = "https://api.deepseek.com/v1/chat/completions";
 
-let modoMatematico = false; // Estado inicial del modo matemático
-let isSending = false; // Flag para evitar doble envío
+let modoMatematico = false; 
+let isSending = false; 
 
 //---------------------------------------------------------------------------------------------------------------------------------
 function sendMessage() {
@@ -185,7 +185,7 @@ function handleLogin() {
     } else {
       sessionStorage.setItem('userEmail', data.email);
       sessionStorage.setItem('userName', data.name);
-      sessionStorage.setItem('userId', data.id); // Guardamos el ID del usuario
+      sessionStorage.setItem('userId', data.id); 
 
       alert(`¡Bienvenido, ${data.name}!`);
       closeLogin();
@@ -258,7 +258,7 @@ function showUserMenu() {
     <button class="boton" onclick="logout()">Cerrar sesión</button>`
   ;
 
-  closeUserMenu(); // Elimina otro menú si ya está
+  closeUserMenu(); 
   document.body.appendChild(menu);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
