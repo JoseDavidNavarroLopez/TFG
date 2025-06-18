@@ -83,7 +83,7 @@ const login = async (req, res) => {
 
     // Preparar los datos a actualizar
     const dataToUpdate = {};
-    if (name) dataToUpdate.nombre = name; // usa el campo correcto
+    if (name) dataToUpdate.nombre = name; 
     if (password) {
       dataToUpdate.password = password;
     }
